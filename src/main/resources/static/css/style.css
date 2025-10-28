@@ -1,0 +1,106 @@
+/* Paleta de Colores:
+   #00796B: Azul petróleo (Primario)
+   #80CBC4: Verde menta (Activo/Hover)
+   #ECEFF1: Gris azulado (Fondo paneles)
+   #37474F: Gris oscuro (Tipografía)
+   #FFFFFF: Blanco (Fondo principal)
+*/
+
+/* 1. Reset Básico y Fondo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FFFFFF; /* Fondo Blanco */
+    color: #37474F; /* Tipografía Principal (Gris oscuro) */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* 2. Contenedor Principal (para centrar) */
+.container {
+    background-color: #ECEFF1; /* Fondo de paneles (Gris azulado) */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px; /* Tamaño fijo para formularios de login/registro */
+    text-align: center;
+}
+
+/* 3. Tipografía y Encabezados */
+h1 {
+    color: #00796B; /* Azul petróleo para el título */
+    margin-bottom: 30px;
+    font-size: 1.8em;
+}
+
+/* 4. Estilos de Formularios e Inputs */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    align-self: flex-start;
+    margin-bottom: -10px; /* Ajuste visual */
+    font-weight: bold;
+    color: #37474F;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #B0BEC5; /* Borde sutil */
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* 5. Botones (Color Primario) */
+button {
+    background-color: #00796B; /* Azul petróleo (Color primario) */
+    color: #FFFFFF;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #80CBC4; /* Verde menta (Hover) */
+    color: #37474F;
+}
+
+/* 6. Enlaces de Navegación */
+a {
+    color: #00796B; /* Azul petróleo para enlaces */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #80CBC4; /* Verde menta en hover */
+    text-decoration: underline;
+}
+
+p {
+    margin-top: 20px;
+}
+
+/* 7. Diseño Responsivo (para cumplimiento del Requisito 2.4) */
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+        margin: 20px;
+        padding: 25px;
+        box-shadow: none; /* Mejor experiencia en móvil */
+    }
+}
