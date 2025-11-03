@@ -31,6 +31,12 @@
             <a th:href="@{/crear}" class="button btn-crear">➕ Registrar Nuevo Paciente</a>
         </div>
 
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}" style="padding: 10px; margin-bottom: 15px; background-color: #E8F5E9; border: 1px solid #4CAF50; color: #1B5E20; border-radius: 4px;">
+            Mensaje de éxito.
+        </div>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}" style="padding: 10px; margin-bottom: 15px; background-color: #FFEBEE; border: 1px solid #F44336; color: #B71C1C; border-radius: 4px;">
+            Mensaje de error.
+        </div>
         <table class="table-custom">
             <thead>
                 <tr>
@@ -42,33 +48,48 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Fido</td>
-                    <td>Perro</td>
-                    <td>Juan Pérez</td>
+                <tr th:each="mascota : ${mascotas}"> 
+                    <td th:text="${mascota.id}">1</td>
+                    <td th:text="${mascota.nombre}">Fido</td>
+                    <td th:text="${mascota.especie}">Perro</td>
+                    <td>Propietario Demo</td> 
                     <td>
-                        <a th:href="@{/detalle/1}" class="button-small">Ver Detalle</a>
-                        <a th:href="@{/editar/1}" class="button-small">Editar</a>
-                        <a th:href="@{/eliminar/1}" onclick="return confirm('¿Está seguro de eliminar a Fido? Esta acción es irreversible.');" class="button-small btn-eliminar">Eliminar</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Michi</td>
-                    <td>Gato</td>
-                    <td>María López</td>
-                    <td>
-                        <a th:href="@{/detalle/2}" class="button-small">Ver Detalle</a>
-                        <a th:href="@{/editar/2}" class="button-small">Editar</a>
-                        <a th:href="@{/eliminar/2}" onclick="return confirm('¿Está seguro de eliminar a Michi? Esta acción es irreversible.');" class="button-small btn-eliminar">Eliminar</a>
+                        <a th:href="@{/detalle/{id}(id=${mascota.id})}" class="button-small">Ver Detalle</a>
+                        <a th:href="@{/editar/{id}(id=${mascota.id})}" class="button-small">Editar</a>
+
+                        <a th:href="@{/eliminar/{id}(id=${mascota.id})}"
+                           th:data-id="${mascota.id}" 
+                           th:data-nombre="${mascota.nombre}"
+                           onclick="return confirmarEliminacion(this);"
+                           class="button-small btn-eliminar">Eliminar</a>
+                           
                     </td>
                 </tr>
             </tbody>
         </table>
         
-        <p><a th:href="@{/login}">Cerrar Sesión</a> (Simulado)</p>
+        <div th:if="${mascotas.isEmpty()}" style="margin-top: 20px;">
+            <p>Aún no hay pacientes registrados. ¡Empieza a agregar uno!</p>
+        </div>
+
+        <p><a th:href="@{/login}">Cerrar Sesión</a></p>
     </div>
-    </section>
+</section>
 </body>
+<script>
+    function confirmarEliminacion(element) {
+
+        const id = element.getAttribute('data-id');
+        const nombre = element.getAttribute('data-nombre');
+        
+      
+        const mensaje = `¿Está seguro de eliminar a ${nombre} (ID: ${id})? Esta acción es irreversible.`;
+        
+       
+        const confirmacion = confirm(mensaje);
+
+
+        return confirm(mensaje);
+    }
+</script>
 </html>
