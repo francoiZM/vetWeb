@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetWeb | Dashboard - Pacientes</title>
+    <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .header-index {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .btn-crear { background-color: #80CBC4 !important; color: #37474F !important; }
+        .btn-crear:hover { background-color: #00796B !important; color: #FFFFFF !important; }
+        .btn-eliminar { background-color: #D32F2F; margin-left: 10px; }
+        .table-custom { width: 100%; border-collapse: collapse; background-color: #FFFFFF; }
+        .table-custom th, .table-custom td { padding: 12px; text-align: left; border-bottom: 1px solid #ECEFF1; }
+        .table-custom th { background-color: #00796B; color: #FFFFFF; }
+    </style>
+    </th:block>
+</head>
+<body>
+    <section layout:fragment="content">
+    <div class="container" style="max-width: 900px;">
+        <div class="header-index">
+            <h1>🐶 Pacientes Registrados</h1>
+            <a th:href="@{/crear}" class="button btn-crear">➕ Registrar Nuevo Paciente</a>
+        </div>
+
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Especie</th>
+                    <th>Dueño (Simulado)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Fido</td>
+                    <td>Perro</td>
+                    <td>Juan Pérez</td>
+                    <td>
+                        <a th:href="@{/detalle/1}" class="button-small">Ver Detalle</a>
+                        <a th:href="@{/editar/1}" class="button-small">Editar</a>
+                        <a th:href="@{/eliminar/1}" onclick="return confirm('¿Está seguro de eliminar a Fido? Esta acción es irreversible.');" class="button-small btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Michi</td>
+                    <td>Gato</td>
+                    <td>María López</td>
+                    <td>
+                        <a th:href="@{/detalle/2}" class="button-small">Ver Detalle</a>
+                        <a th:href="@{/editar/2}" class="button-small">Editar</a>
+                        <a th:href="@{/eliminar/2}" onclick="return confirm('¿Está seguro de eliminar a Michi? Esta acción es irreversible.');" class="button-small btn-eliminar">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p><a th:href="@{/login}">Cerrar Sesión</a> (Simulado)</p>
+    </div>
+    </section>
+</body>
+</html>

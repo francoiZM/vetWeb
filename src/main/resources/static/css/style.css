@@ -6,38 +6,37 @@
    #FFFFFF: Blanco (Fondo principal)
 */
 
-/* 1. Reset Básico y Fondo */
 body {
     font-family: Arial, sans-serif;
-    background-color: #FFFFFF; /* Fondo Blanco */
-    color: #37474F; /* Tipografía Principal (Gris oscuro) */
+    background-color: #FFFFFF;
+    color: #37474F;
     margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    padding: 0 0 60px 0; 
 }
 
-/* 2. Contenedor Principal (para centrar) */
+.content-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    min-height: calc(100vh - 120px);
+}
+
 .container {
-    background-color: #ECEFF1; /* Fondo de paneles (Gris azulado) */
+    background-color: #ECEFF1; 
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 400px; /* Tamaño fijo para formularios de login/registro */
+    width: 100%;
+    max-width: 900px; 
     text-align: center;
 }
 
-/* 3. Tipografía y Encabezados */
 h1 {
-    color: #00796B; /* Azul petróleo para el título */
+    color: #00796B;
     margin-bottom: 30px;
     font-size: 1.8em;
 }
 
-/* 4. Estilos de Formularios e Inputs */
 form {
     display: flex;
     flex-direction: column;
@@ -46,7 +45,7 @@ form {
 
 label {
     align-self: flex-start;
-    margin-bottom: -10px; /* Ajuste visual */
+    margin-bottom: -10px;
     font-weight: bold;
     color: #37474F;
 }
@@ -56,14 +55,13 @@ input[type="email"],
 input[type="password"] {
     width: 100%;
     padding: 10px;
-    border: 1px solid #B0BEC5; /* Borde sutil */
+    border: 1px solid #B0BEC5;
     border-radius: 5px;
     box-sizing: border-box;
 }
 
-/* 5. Botones (Color Primario) */
 button {
-    background-color: #00796B; /* Azul petróleo (Color primario) */
+    background-color: #00796B;
     color: #FFFFFF;
     padding: 12px;
     border: none;
@@ -75,19 +73,19 @@ button {
 }
 
 button:hover {
-    background-color: #80CBC4; /* Verde menta (Hover) */
+    background-color: #80CBC4; 
     color: #37474F;
 }
 
-/* 6. Enlaces de Navegación */
+
 a {
-    color: #00796B; /* Azul petróleo para enlaces */
+    color: #00796B; 
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: #80CBC4; /* Verde menta en hover */
+    color: #80CBC4; 
     text-decoration: underline;
 }
 
@@ -95,12 +93,107 @@ p {
     margin-top: 20px;
 }
 
-/* 7. Diseño Responsivo (para cumplimiento del Requisito 2.4) */
+
 @media (max-width: 600px) {
     .container {
         width: 100%;
         margin: 20px;
         padding: 25px;
-        box-shadow: none; /* Mejor experiencia en móvil */
+        box-shadow: none; 
     }
+}
+
+
+
+      
+        .input-error {
+            border: 2px solid #D32F2F !important; 
+        }
+        .input-success {
+            border: 2px solid #388E3C !important; 
+        }
+        .error-message {
+            color: #D32F2F;
+            font-size: 0.8em;
+            margin-top: -10px;
+            margin-bottom: 5px;
+            align-self: flex-start;
+        }
+
+
+
+
+        /*navbar y footer*/
+
+.navbar {
+    background-color: #00796B;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-logo {
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 25px;
+}
+
+.nav-item {
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-item:hover {
+    background-color: #80CBC4;
+    color: #37474F;
+}
+
+.nav-logout {
+    font-weight: bold;
+    border: 1px solid #FFFFFF;
+}
+
+.footer {
+    background-color: #ECEFF1;
+    color: #37474F;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 0.9em;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+body {
+    padding-bottom: 60px;
+}
+
+.container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 20px;
+}
+
+.container {
+    background-color: #ECEFF1;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px; 
+    text-align: center;
+    margin-bottom: 20px; 
 }

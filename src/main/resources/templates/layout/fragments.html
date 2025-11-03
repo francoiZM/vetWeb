@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    </head>
+<body>
+
+<nav class="navbar" th:fragment="navbar">
+    <div class="navbar-brand">
+        <a th:href="@{/}" class="navbar-logo">
+            VetWeb Gestor
+        </a>
+    </div>
+    <div class="navbar-links">
+        <a th:href="@{/}" class="nav-item">Pacientes</a>
+        <a th:href="@{/crear}" class="nav-item">Nueva Mascota</a>
+        <a th:href="@{/login}" class="nav-item nav-logout">Cerrar Sesión</a>
+    </div>
+</nav>
+
+
+<footer class="footer" th:fragment="footer">
+    <p>&copy; <span th:text="${#dates.year(#dates.createNow())}">2025</span> VetWeb. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>

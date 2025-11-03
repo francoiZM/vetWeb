@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetWeb | Registrar Paciente</title>
+     <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    </th:block>
+</head>
+<body>
+    <section layout:fragment="content">
+    <div class="container" style="max-width: 600px;">
+        <h1>➕ Registrar Nuevo Paciente</h1>
+        <form th:action="@{/guardar}" method="post">
+            
+            <label for="nombre">Nombre de la Mascota:</label>
+            <input type="text" id="nombre" name="nombre" required minlength="2">
+
+            <label for="especie">Especie:</label>
+            <select id="especie" name="especie" required>
+                <option value="">-- Seleccione una especie --</option>
+                <option value="Perro">Perro</option>
+                <option value="Gato">Gato</option>
+                <option value="Ave">Ave</option>
+                <option value="Otro">Otro</option>
+            </select>
+
+            <label for="raza">Raza:</label>
+            <input type="text" id="raza" name="raza" placeholder="Ej: Labrador o Mestizo" required>
+            
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+
+            <label for="peso">Peso (kg):</label>
+            <input type="number" id="peso" name="peso" step="0.1" min="0.1" required>
+
+            <button type="submit">Guardar Paciente</button>
+        </form>
+        
+        <p><a th:href="@{/}">Volver al Listado</a></p>
+    </div>
+</body>
+</html>

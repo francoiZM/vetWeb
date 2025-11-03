@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$CONTENT_TITLE | VetWeb" th:text="VetWeb"></title>
+    
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+    <header th:replace="layout/fragments :: navbar"></header>
+
+    <main id="content" class="container-wrapper">
+        <div >
+             <section layout:fragment="content"></section>
+        </div>
+    </main>
+
+    <footer th:replace="layout/fragments :: footer"></footer>
+    
+    <th:block layout:fragment="js"></th:block>
+</body>
+</html>
