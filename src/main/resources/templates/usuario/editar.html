@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Usuario</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div th:replace="layout/fragments :: navbar"></div>
+    <div class="container" style="max-width:500px; margin:auto;">
+        <h1 style="color:#00796B; margin-bottom:25px;"><span style="font-size:1.3em;vertical-align:middle;">&#128100;</span> Editar Usuario</h1>
+        <form th:action="@{'/usuarios/editar/' + ${usuario.id}}" th:object="${usuario}" method="post" style="background:#FFFFFF; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); padding:30px 25px; display:flex; flex-direction:column; gap:18px;">
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <label for="nombre" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128054;</span> Nombre</label>
+                <input type="text" id="nombre" th:field="*{nombre}" required placeholder="Nombre completo" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+                <label for="apellido" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128049;</span> Apellido</label>
+                <input type="text" id="apellido" th:field="*{apellido}" required placeholder="Apellido" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+                <label for="email" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#9993;</span> Email</label>
+                <input type="email" id="email" th:field="*{email}" required placeholder="ejemplo@correo.cl" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+                <label for="password" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128274;</span> Contraseña</label>
+                <input type="password" id="password" th:field="*{password}" required minlength="8" placeholder="********" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+                <label for="rol" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128188;</span> Rol</label>
+                <input type="text" id="rol" th:field="*{rol}" required placeholder="Ej: Veterinario, Admin" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+            </div>
+            <button type="submit" style="background-color:#00796B; color:#FFFFFF; padding:12px; border:none; border-radius:5px; font-weight:bold; font-size:1em; transition:background 0.3s; margin-top:10px;">
+                <span style="font-size:1.2em;vertical-align:middle;">&#128190;</span> Actualizar Usuario
+            </button>
+        </form>
+        <a th:href="@{/usuarios/listar}" class="button" style="margin-top:25px; background:#80CBC4; color:#37474F; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">&#8592; Volver al listado</a>
+    </div>
+    <div th:replace="layout/fragments :: footer"></div>
+</body>
+</html>

@@ -7,20 +7,33 @@
 </head>
 <body>
     <div th:replace="layout/fragments :: navbar"></div>
-    <div class="container">
-        <h1>Editar Mascota</h1>
-        <form th:action="@{'/mascotas/actualizar/' + ${mascota.id}}" th:object="${mascota}" method="post" class="form">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" th:field="*{nombre}" required />
-            <label for="especie">Especie</label>
-            <input type="text" id="especie" th:field="*{especie}" required />
-            <label for="raza">Raza</label>
-            <input type="text" id="raza" th:field="*{raza}" required />
-            <label for="peso">Peso (kg)</label>
-            <input type="text" id="peso" th:field="*{peso}" required />
-            <label for="fechaNacimiento">Fecha de Nacimiento</label>
-            <input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" required />
-            <button type="submit">Actualizar</button>
+    <div class="container" style="max-width:500px; margin:auto;">
+        <h1 style="color:#00796B; margin-bottom:25px;"><span style="font-size:1.3em;vertical-align:middle;">&#128062;</span> Editar Mascota</h1>
+        <form th:action="@{'/mascotas/actualizar/' + ${mascota.id}}" th:object="${mascota}" method="post" style="background:#FFFFFF; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); padding:30px 25px; display:flex; flex-direction:column; gap:18px;">
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <label for="nombre" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128054;</span> Nombre</label>
+                <input type="text" id="nombre" th:field="*{nombre}" required placeholder="Ej: Fido, Mittens..." style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <label for="especie" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128049;</span> Especie</label>
+                <input type="text" id="especie" th:field="*{especie}" required placeholder="Ej: Perro, Gato..." style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <label for="raza" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128021;</span> Raza</label>
+                <input type="text" id="raza" th:field="*{raza}" required placeholder="Ej: Labrador, Siames..." style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <label for="peso" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#9878;</span> Peso (kg)</label>
+                <input type="number" id="peso" th:field="*{peso}" min="0" step="0.1" required placeholder="Ej: 12.5" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+                <label for="fechaNacimiento" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128197;</span> Fecha de Nacimiento</label>
+                <input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" required style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+            </div>
+            <button type="submit" style="background-color:#00796B; color:#FFFFFF; padding:12px; border:none; border-radius:5px; font-weight:bold; font-size:1em; transition:background 0.3s; margin-top:10px;">
+                <span style="font-size:1.2em;vertical-align:middle;">&#128190;</span> Actualizar Mascota
+            </button>
+            <a th:href="@{/mascotas/listar}" class="button" style="margin-top:18px; background:#80CBC4; color:#37474F; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">&#8592; Volver al listado</a>
         </form>
     </div>
     <div th:replace="layout/fragments :: footer"></div>

@@ -1,5 +1,7 @@
 package com.vetweb.gestor.entity;
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,12 +14,15 @@ import jakarta.annotation.PreDestroy;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
+import jakarta.persistence.OneToMany;
+
 
 
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
         public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
         public Usuario() {}
     
     @Id
@@ -38,6 +43,11 @@ public class Usuario {
     @Temporal(jakarta.persistence.TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date updatedAt;
+
+    @OneToMany(mappedBy = "usuario", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+    List<Mascota> mascotas = new ArrayList<>();
+
+    public List<Mascota> getMascotas() { return mascotas; }
     
     @PrePersist
     protected void onCreate() {
@@ -50,7 +60,7 @@ public class Usuario {
     }
     @PreDestroy
     protected void onDestroy() {
-        // Add any cleanup code here if needed
+       
     }   
 
     public Usuario

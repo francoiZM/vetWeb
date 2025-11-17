@@ -19,47 +19,39 @@
                             <small class="text-muted">Complete los campos para registrar una mascota</small>
                         </div>
                     </div>
-                    <form id="mascotaForm" method="post" th:action="@{/mascotas/guardar}" th:object="${mascota}" novalidate>
-                        <div class="row g-3">
-                            <input type="hidden" th:field="*{id}"/>
-                            <div class="col-md-6">
-                                <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" th:field="*{nombre}" placeholder="Ej: Fido, Mittens..." required>
-                                <div class="invalid-feedback">El nombre es obligatorio.</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="especie" class="form-label">Especie</label>
-                                <input type="text" class="form-control" id="especie" th:field="*{especie}" placeholder="Ej: Perro, Gato..." required>
-                                <div class="invalid-feedback">La especie es obligatoria.</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="raza" class="form-label">Raza</label>
-                                <input type="text" class="form-control" id="raza" th:field="*{raza}" placeholder="Ej: Labrador, Siames..." required>
-                                <div class="invalid-feedback">La raza es obligatoria.</div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="peso" class="form-label">Peso (kg)</label>
-                                <input type="number" class="form-control" id="peso" th:field="*{peso}" min="0" step="0.1" required>
-                                <div class="invalid-feedback">El peso es obligatorio.</div>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
-                                <input type="date" class="form-control" id="fechaNacimiento" th:field="*{fechaNacimiento}" required>
-                                <div class="invalid-feedback">La fecha es obligatoria.</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="usuario" class="form-label">Usuario</label>
-                                <select class="form-select" id="usuario" th:field="*{usuario}" required>
-                                    <option value="">Seleccionar usuario...</option>
-                                    <option th:each="user : ${usuarios}" th:value="${user.id}" th:text="${user.nombre + ' ' + user.apellido}"></option>
-                                </select>
-                                <div class="invalid-feedback">Debe seleccionar un usuario.</div>
-                            </div>
+                    <form id="mascotaForm" method="post" th:action="@{/mascotas/guardar}" th:object="${mascota}" novalidate style="background:#FFFFFF; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); padding:30px 25px; display:flex; flex-direction:column; gap:18px; max-width:600px; margin:auto;">
+                        <input type="hidden" th:field="*{id}"/>
+                        <div style="display:flex; flex-direction:column; gap:12px;">
+                            <label for="nombre" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128054;</span> Nombre</label>
+                            <input type="text" id="nombre" th:field="*{nombre}" required placeholder="Ej: Fido, Mittens..." style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
                         </div>
-                        <div class="d-flex gap-2 mt-4">
-                            <button type="submit" class="btn" style="background-color:#00796B; color:#fff;">Registrar mascota</button>
-                            <a class="btn btn-outline-secondary px-4" th:href="@{/mascotas/listar}">Cancelar</a>
+                        <div style="display:flex; flex-direction:column; gap:12px;">
+                            <label for="especie" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128049;</span> Especie</label>
+                            <input type="text" id="especie" th:field="*{especie}" required placeholder="Ej: Perro, Gato..." style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
                         </div>
+                        <div style="display:flex; flex-direction:column; gap:12px;">
+                            <label for="raza" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128021;</span> Raza</label>
+                            <input type="text" id="raza" th:field="*{raza}" required placeholder="Ej: Labrador, Siames..." style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:12px;">
+                            <label for="peso" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#9878;</span> Peso (kg)</label>
+                            <input type="number" id="peso" th:field="*{peso}" min="0" step="0.1" required placeholder="Ej: 12.5" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:12px;">
+                            <label for="fechaNacimiento" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128197;</span> Fecha de Nacimiento</label>
+                            <input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" required style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:12px;">
+                            <label for="usuario" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128100;</span> Usuario</label>
+                            <select id="usuario" th:field="*{usuario}" required style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+                                <option value="">Seleccionar usuario...</option>
+                                <option th:each="user : ${usuarios}" th:value="${user.id}" th:text="${user.nombre + ' ' + user.apellido}"></option>
+                            </select>
+                        </div>
+                        <button type="submit" style="background-color:#00796B; color:#FFFFFF; padding:12px; border:none; border-radius:5px; font-weight:bold; font-size:1em; transition:background 0.3s; margin-top:10px;">
+                            <span style="font-size:1.2em;vertical-align:middle;">&#128062;</span> Registrar Mascota
+                        </button>
+                        <a th:href="@{/mascotas/listar}" class="button" style="margin-top:18px; background:#80CBC4; color:#37474F; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">&#8592; Volver al listado</a>
                     </form>
                 </div>
             </section>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listado de Usuarios</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div th:replace="layout/fragments :: navbar"></div>
+    <div class="container" style="max-width:900px; margin:auto;">
+        <h1 style="color:#00796B; margin-bottom:25px;"><span style="font-size:1.3em;vertical-align:middle;">&#128100;</span> Usuarios</h1>
+        <div th:if="${error}" class="error-message" style="margin-bottom:10px;">[[${error}]]</div>
+        <a th:href="@{/usuarios/crear}" class="button" style="margin-bottom:20px; background:#00796B; color:#FFFFFF; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">
+            <span style="font-size:1.1em;vertical-align:middle;">&#10133;</span> Registrar Usuario
+        </a>
+        <div style="overflow-x:auto;">
+        <table class="table" style="width:100%; margin-top:10px; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07);">
+            <thead style="background-color:#00796B; color:#FFFFFF;">
+                <tr>
+                    <th style="padding:12px 8px;">Nombre</th>
+                    <th style="padding:12px 8px;">Apellido</th>
+                    <th style="padding:12px 8px;">Email</th>
+                    <th style="padding:12px 8px;">Rol</th>
+                    <th style="padding:12px 8px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="usuario : ${usuarios}" style="background-color:#FFFFFF; border-bottom:1px solid #ECEFF1;">
+                    <td th:text="${usuario.nombre}" style="padding:10px 8px;"></td>
+                    <td th:text="${usuario.apellido}" style="padding:10px 8px;"></td>
+                    <td th:text="${usuario.email}" style="padding:10px 8px;"></td>
+                    <td th:text="${usuario.rol}" style="padding:10px 8px;"></td>
+                    <td style="padding:10px 8px;">
+                        <a th:href="@{'/usuarios/editar/' + ${usuario.id}}" class="button" style="background-color:#80CBC4; color:#37474F; margin-right:5px; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none;">
+                            <span style="font-size:1.1em;vertical-align:middle;">&#9998;</span> Editar
+                        </a>
+                        <a th:href="@{'/usuarios/eliminar/' + ${usuario.id}}" class="button" style="background-color:#D32F2F; color:#FFFFFF; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none;" onclick="return confirm('¿Estás seguro que deseas eliminar este usuario? Esta acción no se puede deshacer.');">
+                            <span style="font-size:1.1em;vertical-align:middle;">&#128465;</span> Eliminar
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+    <div th:replace="layout/fragments :: footer"></div>
+</body>
+</html>

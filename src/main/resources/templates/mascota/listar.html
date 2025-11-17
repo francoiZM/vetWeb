@@ -7,34 +7,42 @@
 </head>
 <body>
     <div th:replace="layout/fragments :: navbar"></div>
-    <div class="container">
-        <h1>Pacientes Mascotas</h1>
-        <a th:href="@{/mascotas/crear}" class="button" style="margin-bottom:20px;">Registrar Mascota</a>
-        <table class="table" style="width:100%; margin-top:20px;">
+    <div class="container" style="max-width:900px; margin:auto;">
+        <h1 style="color:#00796B; margin-bottom:25px;"><span style="font-size:1.3em;vertical-align:middle;">&#128062;</span> Pacientes Mascotas</h1>
+        <a th:href="@{/mascotas/crear}" class="button" style="margin-bottom:20px; background:#00796B; color:#FFFFFF; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">
+            <span style="font-size:1.1em;vertical-align:middle;">&#10133;</span> Registrar Mascota
+        </a>
+        <div style="overflow-x:auto;">
+        <table class="table" style="width:100%; margin-top:10px; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07);">
             <thead style="background-color:#00796B; color:#FFFFFF;">
                 <tr>
-                    <th>Nombre</th>
-                    <th>Especie</th>
-                    <th>Raza</th>
-                    <th>Peso</th>
-                    <th>Fecha Nacimiento</th>
-                    <th>Acciones</th>
+                    <th style="padding:12px 8px;">Nombre</th>
+                    <th style="padding:12px 8px;">Especie</th>
+                    <th style="padding:12px 8px;">Raza</th>
+                    <th style="padding:12px 8px;">Peso</th>
+                    <th style="padding:12px 8px;">Fecha Nacimiento</th>
+                    <th style="padding:12px 8px;">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="mascota : ${mascotas}">
-                    <td th:text="${mascota.nombre}"></td>
-                    <td th:text="${mascota.especie}"></td>
-                    <td th:text="${mascota.raza}"></td>
-                    <td th:text="${mascota.peso}"></td>
-                    <td th:text="${mascota.fechaNacimiento}"></td>
-                    <td>
-                        <a th:href="@{'/mascotas/editar/' + ${mascota.id}}" class="button" style="background-color:#80CBC4; color:#37474F; margin-right:5px;">Editar</a>
-                        <a th:href="@{'/mascotas/eliminar/' + ${mascota.id}}" class="button" style="background-color:#D32F2F; color:#FFFFFF;" onclick="return confirm('¿Estás seguro que deseas eliminar esta mascota? Esta acción no se puede deshacer.');">Eliminar</a>
+                <tr th:each="mascota : ${mascotas}" style="background-color:#FFFFFF; border-bottom:1px solid #ECEFF1;">
+                    <td th:text="${mascota.nombre}" style="padding:10px 8px;"></td>
+                    <td th:text="${mascota.especie}" style="padding:10px 8px;"></td>
+                    <td th:text="${mascota.raza}" style="padding:10px 8px;"></td>
+                    <td th:text="${mascota.peso}" style="padding:10px 8px;"></td>
+                    <td th:text="${mascota.fechaNacimiento}" style="padding:10px 8px;"></td>
+                    <td style="padding:10px 8px;">
+                        <a th:href="@{'/mascotas/editar/' + ${mascota.id}}" class="button" style="background-color:#80CBC4; color:#37474F; margin-right:5px; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none;">
+                            <span style="font-size:1.1em;vertical-align:middle;">&#9998;</span> Editar
+                        </a>
+                        <a th:href="@{'/mascotas/eliminar/' + ${mascota.id}}" class="button" style="background-color:#D32F2F; color:#FFFFFF; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none;" onclick="return confirm('¿Estás seguro que deseas eliminar esta mascota? Esta acción no se puede deshacer.');">
+                            <span style="font-size:1.1em;vertical-align:middle;">&#128465;</span> Eliminar
+                        </a>
                     </td>
                 </tr>
             </tbody>
         </table>
+        </div>
     </div>
     <div th:replace="layout/fragments :: footer"></div>
 </body>

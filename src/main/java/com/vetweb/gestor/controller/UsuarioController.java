@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequestMapping("/usuarios")
@@ -18,15 +19,68 @@ public class UsuarioController {
     @Autowired
     private UsuarioServiceImpl usuarioService;
 
+    
+    @GetMapping("/listar")
+    public String listar(Model model) {
+        model.addAttribute("usuarios", usuarioService.findAll());
+        return "usuario/listar";
+    }
+
+    
+    @GetMapping("/crear")
+    public String Crear(Model model) {
+        model.addAttribute("usuario", new Usuario());
+        return "usuario/crear";
+    }
+
+    
+    @PostMapping("/guardar")
+    public String guardar(@ModelAttribute Usuario usuario, Model model) {
+        usuarioService.save(usuario);
+        return "redirect:/usuarios/listar";
+    }
+
+    // editar
+    @GetMapping("/editar/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        Usuario usuario = usuarioService.findById(id);
+        if (usuario == null) {
+            return "redirect:/usuarios/listar";
+        }
+        model.addAttribute("usuario", usuario);
+        return "usuario/editar";
+    }
+
+    @PostMapping("/editar/{id}")
+    public String actualizar(@PathVariable Long id, @ModelAttribute Usuario usuario) {
+        usuario.setId(id);
+        usuarioService.update(usuario);
+        return "redirect:/usuarios/listar";
+    }
+
+    // eliminar usuario
+    @GetMapping("/eliminar/{id}")
+    public String eliminarUsuario(@PathVariable Long id, Model model) {
+        Usuario usuario = usuarioService.findById(id);
+        if (usuario != null && usuario.getMascotas() != null && !usuario.getMascotas().isEmpty()) {
+            model.addAttribute("usuarios", usuarioService.findAll());
+            model.addAttribute("error", "No se puede eliminar el usuario porque tiene mascotas asociadas.");
+            return "usuario/listar";
+        }
+        usuarioService.delete(id);
+        return "redirect:/usuarios/listar";
+    }
+
+    // registro
     @GetMapping("/registro")
-    public String mostrarRegistro(Model model) {
+    public String registro(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "registro";
     }
 
     @PostMapping("/registro")
-    public String procesarRegistro(@ModelAttribute Usuario usuario, @RequestParam("confirm-password") String confirmPassword, Model model) {
-        // Validaciones básicas
+    public String registro(@ModelAttribute Usuario usuario, @RequestParam("confirm-password") String confirmPassword, Model model) {
+        // validaciones básicas
         String error = null;
         if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()) {
             error = "El nombre es obligatorio.";
@@ -51,6 +105,7 @@ public class UsuarioController {
         return "redirect:/usuarios/login";
     }
 
+    // login
     @GetMapping("/login")
     public String mostrarLogin() {
         return "login";
@@ -64,7 +119,7 @@ public class UsuarioController {
             model.addAttribute("error", "Debes ingresar email y contraseña.");
             return "login";
         }
-        // Aquí iría la lógica de autenticación real
+        
         return "redirect:/mascotas/listar";
     }
 }
