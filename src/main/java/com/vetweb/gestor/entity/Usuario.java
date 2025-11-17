@@ -1,15 +1,57 @@
 package com.vetweb.gestor.entity;
 import java.util.Date;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Temporal;
+import jakarta.annotation.PreDestroy;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import org.springframework.format.annotation.DateTimeFormat;
+
+
+@Entity
+@Table(name = "usuarios")
 public class Usuario {
+        public Long getId() { return id; }
+        public Usuario() {}
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String rut;
     private String nombre;
     private String apellido;
     private String email;
     private String password;
     private String rol;
+    
+    @Column(name = "created_at")
+    @Temporal(jakarta.persistence.TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createdAt;
+    @Column(name = "updated_at")
+    @Temporal(jakarta.persistence.TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date updatedAt;
+    
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Date();
+        updatedAt = new Date();
+    }
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Date();
+    }
+    @PreDestroy
+    protected void onDestroy() {
+        // Add any cleanup code here if needed
+    }   
 
     public Usuario
         (String nombre, String apellido, String email, String password, String rol) {

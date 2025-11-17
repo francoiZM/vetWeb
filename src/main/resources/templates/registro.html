@@ -13,21 +13,21 @@
     <section layout:fragment="content">
     <div class="container">
         <h1>Regístrate en VetWeb</h1>
-        <form id="registroForm" th:action="@{/registro}" method="post" novalidate>
-            
+        <form id="registroForm" th:action="@{/usuarios/registro}" th:object="${usuario}" method="post" novalidate>
+            <div th:if="${error}" class="error-message" style="margin-bottom:10px;">[[${error}]]</div>
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" id="nombre" th:field="*{nombre}" required>
             <span id="error-nombre" class="error-message"></span>
 
             <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" required>
+            <input type="text" id="apellido" th:field="*{apellido}" required>
             <span id="error-apellido" class="error-message"></span>
             
             <label for="email">Email:</label>
             <input 
                 type="email" 
                 id="email" 
-                name="email" 
+                th:field="*{email}" 
                 placeholder="ejemplo@correo.cl" 
                 required 
             >
@@ -37,7 +37,7 @@
             <input 
                 type="password" 
                 id="password" 
-                name="password" 
+                th:field="*{password}" 
                 required 
                 minlength="8"
             >
@@ -57,7 +57,7 @@
             <div id="general-error" class="error-message"></div>
         </form>
         
-        <p>¿Ya tienes cuenta? <a th:href="@{/login}">Inicia Sesión</a></p>
+        <p>¿Ya tienes cuenta? <a th:href="@{/usuarios/login}">Inicia Sesión</a></p>
     </div>
     </section>
     

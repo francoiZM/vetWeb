@@ -14,8 +14,8 @@
     <section layout:fragment="content">
     <div class="container">
         <h1>Login</h1>
-        <form th:action="@{/login}" method="post">
-            
+        <form th:action="@{/usuarios/login}" method="post">
+            <div th:if="${error}" class="error-message" style="margin-bottom:10px;">[[${error}]]</div>
             <label for="email">Email:</label>
             <input 
                 type="email" 
@@ -40,7 +40,7 @@
             <button type="submit">Ingresar</button>
         </form>
         
-        <p>¿No tienes cuenta? <a th:href="@{/registro}">Regístrate aquí</a></p>
+        <p>¿No tienes cuenta? <a th:href="@{/usuarios/registro}">Regístrate aquí</a></p>
     </div>
     </section>
 </body>

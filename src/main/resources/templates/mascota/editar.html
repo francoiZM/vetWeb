@@ -1,0 +1,28 @@
+<!-- Editar Mascota - UX/UI optimizado, paleta y fragmentos -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Mascota</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div th:replace="layout/fragments :: navbar"></div>
+    <div class="container">
+        <h1>Editar Mascota</h1>
+        <form th:action="@{'/mascotas/actualizar/' + ${mascota.id}}" th:object="${mascota}" method="post" class="form">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" th:field="*{nombre}" required />
+            <label for="especie">Especie</label>
+            <input type="text" id="especie" th:field="*{especie}" required />
+            <label for="raza">Raza</label>
+            <input type="text" id="raza" th:field="*{raza}" required />
+            <label for="peso">Peso (kg)</label>
+            <input type="text" id="peso" th:field="*{peso}" required />
+            <label for="fechaNacimiento">Fecha de Nacimiento</label>
+            <input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" required />
+            <button type="submit">Actualizar</button>
+        </form>
+    </div>
+    <div th:replace="layout/fragments :: footer"></div>
+</body>
+</html>

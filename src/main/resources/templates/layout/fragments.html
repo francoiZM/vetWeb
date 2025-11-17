@@ -6,14 +6,14 @@
 
 <nav class="navbar" th:fragment="navbar">
     <div class="navbar-brand">
-        <a th:href="@{/}" class="navbar-logo">
+        <a th:href="@{/mascotas/listar}" class="navbar-logo">
             VetWeb Gestor
         </a>
     </div>
     <div class="navbar-links">
-        <a th:href="@{/}" class="nav-item">Pacientes</a>
-        <a th:href="@{/crear}" class="nav-item">Nueva Mascota</a>
-        <a th:href="@{/login}" class="nav-item nav-logout">Cerrar Sesión</a>
+        <a th:href="@{/mascotas/listar}" class="nav-item">Pacientes</a>
+        <a th:href="@{/mascotas/crear}" class="nav-item">Nueva Mascota</a>
+        <a th:href="@{/usuarios/login}" class="nav-item nav-logout">Cerrar Sesión</a>
     </div>
 </nav>
 
