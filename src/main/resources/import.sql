@@ -1,18 +1,11 @@
-/* insertar todos los datos de tabla de usuarios private Long id;
-    private String rut;
-        private String nombre;
-        private String apellido;
-        private String email;
-        private String password;
-        private String rol;*/
 
-        INSERT INTO usuarios (rut, nombre, apellido, email, password, rol) VALUES ('12345678-9', 'Juan', 'Pérez', 'juan.perez@example.com', 'password123', 'admin');
-        INSERT INTO usuarios (rut, nombre, apellido, email, password, rol) VALUES ('98765432-1', 'María', 'Gómez', 'maria.gomez@example.com', 'password456', 'user');
-        INSERT INTO usuarios (rut, nombre, apellido, email, password, rol) VALUES ('11223344-5', 'Carlos', 'López', 'carlos.lopez@example.com', 'password789', 'user');
+        -- All seeded users use the plaintext password: "password"
+        -- BCrypt hash below corresponds to "password" (cost=10) with Spring prefix
+        INSERT INTO usuarios (rut, nombre, apellido, email, password, rol) VALUES ('12345678-9', 'Juan', 'Pérez', 'juan.perez@example.com', '{bcrypt}$2a$10$N9qo8uLOickgx2ZMRZo5i.Une8DT9Y8QDeihh5Z8SGvtQvE4H14a.', 'vet');
+        INSERT INTO usuarios (rut, nombre, apellido, email, password, rol) VALUES ('98765432-1', 'María', 'Gómez', 'maria.gomez@example.com', '{bcrypt}$2a$10$N9qo8uLOickgx2ZMRZo5i.Une8DT9Y8QDeihh5Z8SGvtQvE4H14a.', 'tutor');
+        INSERT INTO usuarios (rut, nombre, apellido, email, password, rol) VALUES ('11223344-5', 'Carlos', 'López', 'carlos.lopez@example.com', '{bcrypt}$2a$10$N9qo8uLOickgx2ZMRZo5i.Une8DT9Y8QDeihh5Z8SGvtQvE4H14a.', 'tutor');
 
-        /*insertar datos de tabla de mascotas*/
-        /*ahora incluye el campo peso y fecha_nacimiento*/
-
+        
         INSERT INTO mascotas (nombre, especie, raza, peso, fecha_nacimiento, usuario_id) VALUES ('Max', 'Perro', 'Labrador', 30.5, '2019-01-15', 1);
         INSERT INTO mascotas (nombre, especie, raza, peso, fecha_nacimiento, usuario_id) VALUES ('Luna', 'Gato', 'Siamés', 3.8, '2021-03-20', 2);
         INSERT INTO mascotas (nombre, especie, raza, peso, fecha_nacimiento, usuario_id) VALUES ('Rocky', 'Perro', 'Bulldog', 22.0, '2020-05-10', 3);

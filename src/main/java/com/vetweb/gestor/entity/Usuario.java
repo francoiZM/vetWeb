@@ -31,6 +31,7 @@ public class Usuario {
     private String rut;
     private String nombre;
     private String apellido;
+    @Column(unique = true)
     private String email;
     private String password;
     private String rol;
