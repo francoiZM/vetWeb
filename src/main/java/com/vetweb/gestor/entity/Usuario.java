@@ -2,38 +2,54 @@ package com.vetweb.gestor.entity;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashSet;  
+import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Temporal;
+import jakarta.persistence.*;
 import jakarta.annotation.PreDestroy;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
-import jakarta.persistence.OneToMany;
+
 
 
 
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
-        public Long getId() { return id; }
-        public void setId(Long id) { this.id = id; }
-        public Usuario() {}
+
+    //constructor vacio
+    public Usuario() {
+    }
+
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true, nullable = false, length = 12)
     private String rut;
+    @Column(nullable = false, length = 50)
     private String nombre;
+    @Column(nullable = false, length = 50)
     private String apellido;
+    @Column(unique = true, nullable = false, length = 100)
     private String email;
+    @Column(nullable = false, length = 100)
     private String password;
-    private String rol;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE
+    })
+    @JoinTable(
+        name = "usuario_roles",
+        joinColumns = @JoinColumn(name = "usuario_id"),
+        inverseJoinColumns = @JoinColumn(name = "rol_id")
+    )
+    private Set<Rol> roles = new HashSet<>();
+
+    @Column(nullable = false)
+    private Boolean activo = true;
+
+
     
     @Column(name = "created_at")
     @Temporal(jakarta.persistence.TemporalType.TIMESTAMP)
@@ -64,12 +80,14 @@ public class Usuario {
     }   
 
     public Usuario
-        (String nombre, String apellido, String email, String password, String rol) {
+        (String nombre, String apellido, String email, String password, Set<Rol> roles) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.password = password;
-        this.rol = rol;
+        this.roles = roles;
+        this.activo = true;
+     
 
     }
 
@@ -95,9 +113,7 @@ public class Usuario {
         return email;
     }
 
-    public String getRol() {
-        return rol;
-    }
+
 
     public Date getCreatedAt() {
         return createdAt;
@@ -127,9 +143,75 @@ public class Usuario {
         this.email = email;
         this.updatedAt = new Date();
     }
-    public void setRol(String rol) {
-        this.rol = rol;
+
+    public void setRol (String rol) {
+       
         this.updatedAt = new Date();
     }
+
+    //getters y setters faltantes
+    public Set<Rol> getRoles() {
+        return roles;
+    }
+    public void setRoles(Set<Rol> roles) {
+        this.roles = roles;
+        this.updatedAt = new Date();
+    }
+    public Boolean isActivo() {
+        return activo;
+        
+    }
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+        this.updatedAt = new Date();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+        this.updatedAt = new Date();
+    }
+
+    public void addRol(Rol rol) {
+        this.roles.add(rol);
+        rol.getUsuarios().add(this);
+    }
+
+    public void removeRol(Rol rol) {
+        this.roles.remove(rol);
+        rol.getUsuarios().remove(this);
+        this.updatedAt = new Date();
+    }
+
+    public String getUsername() {
+        return this.email;
+    }
+
+    //metodos override
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", rut='" + rut + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", email='" + email + '\'' +
+                ", activo=" + activo +
+                ", roles=" + roles.size() +
+                '}';
+
+    }
+
+
+
+
+
+
+
+
+
     
 }

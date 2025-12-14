@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     </head>
 <body>
@@ -12,9 +12,14 @@
     </div>
     <div class="navbar-links">
         <a th:href="@{/mascotas/listar}" class="nav-item">Pacientes</a>
-        <a th:href="@{/mascotas/crear}" class="nav-item">Nueva Mascota</a>
-        <a th:href="@{/usuarios/listar}" class="nav-item">Usuarios</a>
-        <a th:href="@{/usuarios/login}" class="nav-item nav-logout">Cerrar Sesión</a>
+        <a sec:authorize="hasAnyRole('TUTOR', 'ADMIN')" th:href="@{/mascotas/crear}" class="nav-item">Nueva Mascota</a>
+        <a sec:authorize="hasRole('TUTOR')" th:href="@{/citas/mis-citas}" class="nav-item">Mis Citas</a>
+        <a sec:authorize="hasRole('TUTOR')" th:href="@{/citas/agendar}" class="nav-item">Agendar Cita</a>
+        <a sec:authorize="hasAnyRole('VETERINARIO', 'ADMIN')" th:href="@{/citas/calendario}" class="nav-item">Calendario</a>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/usuarios/listar}" class="nav-item">Usuarios</a>
+        <form th:action="@{/logout}" method="post" >
+            <button type="submit" class="nav-item nav-logout" >Cerrar Sesión</button>
+        </form>
     </div>
 </nav>
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Agendar Cita - Paso 1</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div th:replace="layout/fragments :: navbar"></div>
+    <div class="container" style="max-width:800px; margin:auto;">
+        <h1 style="color:#00796B; margin-bottom:10px;">
+            <span style="font-size:1.3em;vertical-align:middle;">&#128197;</span> Agendar Nueva Cita
+        </h1>
+        
+        <!-- Indicador de pasos -->
+        <div style="display:flex; justify-content:center; align-items:center; margin-bottom:30px; gap:10px;">
+            <div style="background:#00796B; color:#FFF; border-radius:50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; font-weight:bold;">1</div>
+            <div style="width:60px; height:3px; background:#B0BEC5;"></div>
+            <div style="background:#B0BEC5; color:#FFF; border-radius:50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; font-weight:bold;">2</div>
+            <div style="width:60px; height:3px; background:#B0BEC5;"></div>
+            <div style="background:#B0BEC5; color:#FFF; border-radius:50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; font-weight:bold;">3</div>
+        </div>
+
+        <h2 style="color:#37474F; margin-bottom:20px; text-align:center;">Paso 1: Selecciona un Veterinario</h2>
+
+        <div th:if="${param.error}" class="error-message" style="background:#FFEBEE; color:#C62828; padding:12px; border-radius:5px; margin-bottom:20px;">
+            <span th:if="${param.error[0] == 'horario-no-disponible'}">⚠️ El horario seleccionado no está disponible. Por favor elige otro.</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:20px;">
+            <a th:each="vet : ${veterinarios}" 
+               th:href="@{/citas/agendar/calendario(veterinarioId=${vet.id})}"
+               style="background:#FFFFFF; border:2px solid #B0BEC5; border-radius:10px; padding:25px; text-decoration:none; transition:all 0.3s; display:flex; flex-direction:column; align-items:center; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,0.05);"
+               onmouseover="this.style.borderColor='#00796B'; this.style.boxShadow='0 4px 12px rgba(0,121,107,0.2)';" 
+               onmouseout="this.style.borderColor='#B0BEC5'; this.style.boxShadow='0 2px 5px rgba(0,0,0,0.05)';">
+                <div style="background:#E0F2F1; border-radius:50%; width:80px; height:80px; display:flex; align-items:center; justify-content:center; margin-bottom:15px; font-size:2.5em;">
+                    &#128105;&#8205;⚕️
+                </div>
+                <h3 style="color:#00796B; margin:0 0 5px 0;" th:text="${vet.nombre + ' ' + vet.apellido}">Nombre Veterinario</h3>
+                <p style="color:#757575; margin:0; font-size:0.9em;">Veterinario</p>
+            </a>
+        </div>
+
+        <a th:href="@{/citas/mis-citas}" class="button" style="margin-top:30px; background:#80CBC4; color:#37474F; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">
+            &#8592; Volver a Mis Citas
+        </a>
+    </div>
+    <div th:replace="layout/fragments :: footer"></div>
+</body>
+</html>

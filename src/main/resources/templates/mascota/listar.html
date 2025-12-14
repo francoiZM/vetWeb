@@ -1,6 +1,6 @@
 <!-- Listar Mascotas - UX/UI optimizado, paleta y fragmentos -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Listado de Mascotas</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
@@ -35,7 +35,8 @@
                         <a th:href="@{'/mascotas/editar/' + ${mascota.id}}" class="button" style="background-color:#80CBC4; color:#37474F; margin-right:5px; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none;">
                             <span style="font-size:1.1em;vertical-align:middle;">&#9998;</span> Editar
                         </a>
-                        <a th:href="@{'/mascotas/eliminar/' + ${mascota.id}}" class="button" style="background-color:#D32F2F; color:#FFFFFF; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none;" onclick="return confirm('¿Estás seguro que deseas eliminar esta mascota? Esta acción no se puede deshacer.');">
+                        <!-- Solo ADMIN y TUTOR pueden eliminar, VETERINARIO no -->
+                        <a sec:authorize="hasAnyRole('ADMIN', 'TUTOR')" th:href="@{'/mascotas/eliminar/' + ${mascota.id}}" class="button" style="background-color:#D32F2F; color:#FFFFFF; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none;" onclick="return confirm('¿Estás seguro que deseas eliminar esta mascota? Esta acción no se puede deshacer.');">
                             <span style="font-size:1.1em;vertical-align:middle;">&#128465;</span> Eliminar
                         </a>
                     </td>

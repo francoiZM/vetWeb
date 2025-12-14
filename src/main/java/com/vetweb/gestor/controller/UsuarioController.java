@@ -1,7 +1,9 @@
 package com.vetweb.gestor.controller;
 
 import com.vetweb.gestor.entity.Usuario;
+import com.vetweb.gestor.entity.Rol;
 import com.vetweb.gestor.service.impl.UsuarioServiceImpl;
+import com.vetweb.gestor.dao.iRolDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,13 +13,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Controller
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private UsuarioServiceImpl usuarioService;
+
+    @Autowired
+    private iRolDao rolDao;
 
     
     @GetMapping("/listar")
@@ -35,7 +47,20 @@ public class UsuarioController {
 
     
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute Usuario usuario, Model model) {
+    public String guardar(@ModelAttribute Usuario usuario, 
+                          @RequestParam("rolNombre") String rolNombre,
+                          Model model) {
+        // Encriptar contraseña
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        
+        // Asignar rol seleccionado
+        Rol rol = rolDao.findByNombre(rolNombre)
+            .orElseThrow(() -> new RuntimeException("Rol no encontrado: " + rolNombre));
+        
+        Set<Rol> roles = new HashSet<>();
+        roles.add(rol);
+        usuario.setRoles(roles);
+        
         usuarioService.save(usuario);
         return "redirect:/usuarios/listar";
     }
@@ -101,8 +126,9 @@ public class UsuarioController {
             model.addAttribute("error", error);
             return "registro";
         }
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioService.save(usuario);
-        return "redirect:/usuarios/login";
+        return "redirect:/login";
     }
 
     // login
@@ -111,15 +137,5 @@ public class UsuarioController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String procesarLogin(@RequestParam("email") String email,
-                                @RequestParam("password") String password,
-                                Model model) {
-        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
-            model.addAttribute("error", "Debes ingresar email y contraseña.");
-            return "login";
-        }
-        
-        return "redirect:/mascotas/listar";
-    }
+
 }

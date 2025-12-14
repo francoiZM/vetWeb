@@ -28,7 +28,7 @@
                     <td th:text="${usuario.nombre}" style="padding:10px 8px;"></td>
                     <td th:text="${usuario.apellido}" style="padding:10px 8px;"></td>
                     <td th:text="${usuario.email}" style="padding:10px 8px;"></td>
-                    <td th:text="${usuario.rol}" style="padding:10px 8px;"></td>
+                    <td th:text="${usuario.roles}" style="padding:10px 8px;"></td>
                     <td style="padding:10px 8px;">
                         <a th:href="@{'/usuarios/editar/' + ${usuario.id}}" class="button" style="background-color:#80CBC4; color:#37474F; margin-right:5px; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none;">
                             <span style="font-size:1.1em;vertical-align:middle;">&#9998;</span> Editar

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Calendario de Citas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div th:replace="layout/fragments :: navbar"></div>
+    <div class="container" style="max-width:1200px; margin:auto;">
+        <h1 style="color:#00796B; margin-bottom:25px;">
+            <span style="font-size:1.3em;vertical-align:middle;">&#128197;</span> Calendario de Citas
+        </h1>
+
+        <div th:if="${citas != null && !citas.isEmpty()}" style="overflow-x:auto;">
+            <table class="table" style="width:100%; margin-top:10px; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07);">
+                <thead style="background-color:#00796B; color:#FFFFFF;">
+                    <tr>
+                        <th style="padding:12px 8px;">Fecha y Hora</th>
+                        <th style="padding:12px 8px;">Tutor</th>
+                        <th style="padding:12px 8px;">Mascota</th>
+                        <th style="padding:12px 8px;">Especie</th>
+                        <th style="padding:12px 8px;">Motivo</th>
+                        <th style="padding:12px 8px;">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cita : ${citas}" style="background-color:#FFFFFF; border-bottom:1px solid #ECEFF1;">
+                        <td th:text="${#temporals.format(cita.fechaHora, 'dd/MM/yyyy HH:mm')}" style="padding:10px 8px; font-weight:bold;"></td>
+                        <td th:text="${cita.tutor.nombre + ' ' + cita.tutor.apellido}" style="padding:10px 8px;"></td>
+                        <td th:text="${cita.mascota.nombre}" style="padding:10px 8px;"></td>
+                        <td th:text="${cita.mascota.especie}" style="padding:10px 8px;"></td>
+                        <td th:text="${cita.motivo}" style="padding:10px 8px; max-width:300px; word-wrap:break-word;"></td>
+                        <td style="padding:10px 8px;">
+                            <span th:if="${cita.estado == 'PENDIENTE'}" style="background:#FFF9C4; color:#F57F17; padding:5px 10px; border-radius:5px; font-weight:bold;">⏳ Pendiente</span>
+                            <span th:if="${cita.estado == 'CONFIRMADA'}" style="background:#C8E6C9; color:#2E7D32; padding:5px 10px; border-radius:5px; font-weight:bold;">✅ Confirmada</span>
+                            <span th:if="${cita.estado == 'CANCELADA'}" style="background:#FFCDD2; color:#C62828; padding:5px 10px; border-radius:5px; font-weight:bold;">❌ Cancelada</span>
+                            <span th:if="${cita.estado == 'COMPLETADA'}" style="background:#B3E5FC; color:#01579B; padding:5px 10px; border-radius:5px; font-weight:bold;">✔️ Completada</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${citas == null || citas.isEmpty()}" style="text-align:center; padding:40px; background:#F5F5F5; border-radius:8px; margin-top:20px;">
+            <p style="color:#757575; font-size:1.1em;">📅 No hay citas programadas.</p>
+        </div>
+
+        <!-- Leyenda de horarios -->
+        <div style="margin-top:30px; padding:20px; background:#E0F2F1; border-radius:8px;">
+            <h3 style="color:#00796B; margin-bottom:15px;">⏰ Información de Horarios</h3>
+            <ul style="list-style:none; padding:0; color:#37474F;">
+                <li style="margin-bottom:8px;">📅 <strong>Días laborales:</strong> Lunes a Viernes</li>
+                <li style="margin-bottom:8px;">🕐 <strong>Horario de atención:</strong> 8:00 AM - 5:00 PM</li>
+                <li style="margin-bottom:8px;">🍽️ <strong>Hora de colación:</strong> 1:00 PM (no disponible)</li>
+                <li style="margin-bottom:8px;">⏱️ <strong>Duración por cita:</strong> 1 hora</li>
+            </ul>
+        </div>
+    </div>
+    <div th:replace="layout/fragments :: footer"></div>
+</body>
+</html>

@@ -6,9 +6,23 @@
         private String password;
         private String rol;*/
 
-        INSERT INTO usuarios (rut, nombre, apellido, email, password, rol) VALUES ('12345678-9', 'Juan', 'Pérez', 'juan.perez@example.com', 'password123', 'admin');
-        INSERT INTO usuarios (rut, nombre, apellido, email, password, rol) VALUES ('98765432-1', 'María', 'Gómez', 'maria.gomez@example.com', 'password456', 'user');
-        INSERT INTO usuarios (rut, nombre, apellido, email, password, rol) VALUES ('11223344-5', 'Carlos', 'López', 'carlos.lopez@example.com', 'password789', 'user');
+-- crear insert para roles
+        INSERT INTO roles (nombre, descripcion) VALUES ('ROLE_ADMIN', 'Administrador del sistema');
+        INSERT INTO roles (nombre, descripcion) VALUES ('ROLE_TUTOR', 'Tutor de mascotas');
+        INSERT INTO roles (nombre, descripcion) VALUES ('ROLE_VETERINARIO', 'Veterinario del sistema');
+
+-- insertar datos de tabla de usuarios
+    --contraseña 1  --> password -->  $2a$10$JTtCtBaFrKZPzzdhIadJOeQdxH6CSAtrszbqgn6v831Kc4VmXOV4C
+    
+        INSERT INTO usuarios (rut, nombre, apellido, email, password, activo) VALUES ('12345678-9', 'franco', 'zuniga', 'prueba@prueba.com', '$2a$10$JTtCtBaFrKZPzzdhIadJOeQdxH6CSAtrszbqgn6v831Kc4VmXOV4C', true);
+        INSERT INTO usuarios (rut, nombre, apellido, email, password, activo) VALUES ('98765432-1', 'María', 'Gómez', 'maria.gomez@example.com', '$2a$10$JTtCtBaFrKZPzzdhIadJOeQdxH6CSAtrszbqgn6v831Kc4VmXOV4C', true);
+        INSERT INTO usuarios (rut, nombre, apellido, email, password, activo) VALUES ('11223344-5', 'Carlos', 'López', 'carlos.lopez@example.com', '$2a$10$JTtCtBaFrKZPzzdhIadJOeQdxH6CSAtrszbqgn6v831Kc4VmXOV4C', true);
+
+
+    -- asignaro roles a usuarios
+        INSERT INTO usuario_roles (usuario_id, rol_id) VALUES (1, 1);
+        INSERT INTO usuario_roles (usuario_id, rol_id) VALUES (2, 2);
+        INSERT INTO usuario_roles (usuario_id, rol_id) VALUES (3, 3);
 
         /*insertar datos de tabla de mascotas*/
         /*ahora incluye el campo peso y fecha_nacimiento*/

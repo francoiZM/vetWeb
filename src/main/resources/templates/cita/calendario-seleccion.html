@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Agendar Cita - Paso 2</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        .horario-disponible {
+            background:#C8E6C9;
+            border:2px solid #4CAF50;
+            color:#2E7D32;
+            padding:10px;
+            border-radius:5px;
+            text-align:center;
+            cursor:pointer;
+            transition:all 0.3s;
+            text-decoration:none;
+            display:block;
+            font-weight:bold;
+        }
+        .horario-disponible:hover {
+            background:#4CAF50;
+            color:#FFFFFF;
+            transform:scale(1.05);
+        }
+        .horario-ocupado {
+            background:#FFCDD2;
+            border:2px solid #E57373;
+            color:#C62828;
+            padding:10px;
+            border-radius:5px;
+            text-align:center;
+            cursor:not-allowed;
+            font-weight:bold;
+        }
+        .dia-semana {
+            background:#00796B;
+            color:#FFFFFF;
+            padding:15px;
+            border-radius:8px 8px 0 0;
+            text-align:center;
+            font-weight:bold;
+        }
+        .horarios-grid {
+            display:grid;
+            grid-template-columns:repeat(5, 1fr);
+            gap:15px;
+        }
+        .columna-dia {
+            background:#FFFFFF;
+            border-radius:8px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            overflow:hidden;
+        }
+        .horarios-container {
+            padding:15px;
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="layout/fragments :: navbar"></div>
+    <div class="container" style="max-width:1400px; margin:auto;">
+        <h1 style="color:#00796B; margin-bottom:10px;">
+            <span style="font-size:1.3em;vertical-align:middle;">&#128197;</span> Agendar Nueva Cita
+        </h1>
+        
+        <!-- Indicador de pasos -->
+        <div style="display:flex; justify-content:center; align-items:center; margin-bottom:30px; gap:10px;">
+            <div style="background:#80CBC4; color:#FFF; border-radius:50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; font-weight:bold;">✓</div>
+            <div style="width:60px; height:3px; background:#00796B;"></div>
+            <div style="background:#00796B; color:#FFF; border-radius:50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; font-weight:bold;">2</div>
+            <div style="width:60px; height:3px; background:#B0BEC5;"></div>
+            <div style="background:#B0BEC5; color:#FFF; border-radius:50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; font-weight:bold;">3</div>
+        </div>
+
+        <h2 style="color:#37474F; margin-bottom:10px; text-align:center;">
+            Paso 2: Selecciona Día y Hora con 
+            <span style="color:#00796B;" th:text="${veterinario.nombre + ' ' + veterinario.apellido}">Veterinario</span>
+        </h2>
+        <p style="text-align:center; color:#757575; margin-bottom:25px;">
+            ⏰ Horarios: Lunes a Viernes, 8:00 - 17:00 (excepto 13:00)
+        </p>
+
+        <div class="horarios-grid">
+            <!-- Iterar sobre los 5 días laborables -->
+            <div class="columna-dia" th:each="diaActual : ${diasLaborables}">
+                <div class="dia-semana">
+                    <span th:text="${#temporals.format(diaActual, 'EEEE', new java.util.Locale('es', 'ES'))}">Día</span><br>
+                    <span style="font-size:0.85em;" th:text="${#temporals.format(diaActual, 'dd/MM')}"></span>
+                </div>
+                <div class="horarios-container">
+                    <th:block th:each="hora : ${#numbers.sequence(8, 17)}" th:if="${hora != 13}">
+                        <th:block th:with="fechaHora=${diaActual.withHour(hora).withMinute(0).withSecond(0)}, estaDisponible=${disponibilidad.get(fechaHora.toString())}">
+                            <a th:if="${estaDisponible}"
+                               class="horario-disponible"
+                               th:href="@{/citas/agendar/confirmar(veterinarioId=${veterinarioId}, fechaHora=${fechaHora})}"
+                               th:text="${#temporals.format(fechaHora, 'HH:mm')}">
+                            </a>
+                            <span th:unless="${estaDisponible}"
+                                  class="horario-ocupado"
+                                  th:text="${#temporals.format(fechaHora, 'HH:mm')}">
+                            </span>
+                        </th:block>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top:30px; display:flex; gap:20px; justify-content:center; align-items:center;">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div style="width:20px; height:20px; background:#C8E6C9; border:2px solid #4CAF50; border-radius:3px;"></div>
+                <span style="color:#37474F;">Disponible</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div style="width:20px; height:20px; background:#FFCDD2; border:2px solid #E57373; border-radius:3px;"></div>
+                <span style="color:#37474F;">Ocupado</span>
+            </div>
+        </div>
+
+        <a th:href="@{/citas/agendar}" class="button" style="margin-top:30px; background:#80CBC4; color:#37474F; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">
+            &#8592; Cambiar Veterinario
+        </a>
+    </div>
+    <div th:replace="layout/fragments :: footer"></div>
+</body>
+</html>

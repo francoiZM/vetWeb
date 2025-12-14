@@ -2,6 +2,8 @@ package com.vetweb.gestor.service;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.vetweb.gestor.entity.Usuario;
 
 public interface UsuarioService {
@@ -15,6 +17,8 @@ public interface UsuarioService {
     public void delete(Long id);
 
     public Usuario update(Usuario usuario);
+
+    UserDetails loadUserByUsername(String username);
 
 
   

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mis Citas</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div th:replace="layout/fragments :: navbar"></div>
+    <div class="container" style="max-width:1000px; margin:auto;">
+        <h1 style="color:#00796B; margin-bottom:25px;">
+            <span style="font-size:1.3em;vertical-align:middle;">&#128197;</span> Mis Citas Agendadas
+        </h1>
+
+        <div th:if="${param.error}" class="error-message" style="background:#FFEBEE; color:#C62828; padding:12px; border-radius:5px; margin-bottom:20px;">
+            <span th:if="${param.error[0] == 'tiempo-limite'}">⚠️ No puedes cancelar una cita con menos de 1 hora de anticipación.</span>
+        </div>
+
+        <a th:href="@{/citas/agendar}" class="button" style="margin-bottom:20px; background:#00796B; color:#FFFFFF; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">
+            <span style="font-size:1.1em;vertical-align:middle;">&#10133;</span> Agendar Nueva Cita
+        </a>
+
+        <div th:if="${citas != null && !citas.isEmpty()}" style="overflow-x:auto;">
+            <table class="table" style="width:100%; margin-top:10px; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07);">
+                <thead style="background-color:#00796B; color:#FFFFFF;">
+                    <tr>
+                        <th style="padding:12px 8px;">Fecha y Hora</th>
+                        <th style="padding:12px 8px;">Mascota</th>
+                        <th style="padding:12px 8px;">Veterinario</th>
+                        <th style="padding:12px 8px;">Motivo</th>
+                        <th style="padding:12px 8px;">Estado</th>
+                        <th style="padding:12px 8px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cita : ${citas}" style="background-color:#FFFFFF; border-bottom:1px solid #ECEFF1;">
+                        <td th:text="${#temporals.format(cita.fechaHora, 'dd/MM/yyyy HH:mm')}" style="padding:10px 8px;"></td>
+                        <td th:text="${cita.mascota.nombre}" style="padding:10px 8px;"></td>
+                        <td th:text="${cita.veterinario.nombre + ' ' + cita.veterinario.apellido}" style="padding:10px 8px;"></td>
+                        <td th:text="${cita.motivo}" style="padding:10px 8px;"></td>
+                        <td style="padding:10px 8px;">
+                            <span th:if="${cita.estado == 'PENDIENTE'}" style="background:#FFF9C4; color:#F57F17; padding:5px 10px; border-radius:5px; font-weight:bold;">⏳ Pendiente</span>
+                            <span th:if="${cita.estado == 'CONFIRMADA'}" style="background:#C8E6C9; color:#2E7D32; padding:5px 10px; border-radius:5px; font-weight:bold;">✅ Confirmada</span>
+                            <span th:if="${cita.estado == 'CANCELADA'}" style="background:#FFCDD2; color:#C62828; padding:5px 10px; border-radius:5px; font-weight:bold;">❌ Cancelada</span>
+                            <span th:if="${cita.estado == 'COMPLETADA'}" style="background:#B3E5FC; color:#01579B; padding:5px 10px; border-radius:5px; font-weight:bold;">✔️ Completada</span>
+                        </td>
+                        <td style="padding:10px 8px;">
+                            <a th:if="${cita.estado == 'PENDIENTE' || cita.estado == 'CONFIRMADA'}" 
+                               th:href="@{'/citas/cancelar/' + ${cita.id}}" 
+                               class="button" 
+                               style="background-color:#D32F2F; color:#FFFFFF; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none;" 
+                               onclick="return confirm('¿Estás seguro que deseas cancelar esta cita?');">
+                                <span style="font-size:1.1em;vertical-align:middle;">🚫</span> Cancelar
+                            </a>
+                            <span th:if="${cita.estado == 'CANCELADA' || cita.estado == 'COMPLETADA'}" style="color:#B0BEC5;">-</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${citas == null || citas.isEmpty()}" style="text-align:center; padding:40px; background:#F5F5F5; border-radius:8px; margin-top:20px;">
+            <p style="color:#757575; font-size:1.1em;">📅 No tienes citas agendadas.</p>
+            <a th:href="@{/citas/agendar}" style="color:#00796B; font-weight:bold; text-decoration:underline;">Agenda tu primera cita aquí</a>
+        </div>
+    </div>
+    <div th:replace="layout/fragments :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Agendar Cita - Paso 3</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div th:replace="layout/fragments :: navbar"></div>
+    <div class="container" style="max-width:700px; margin:auto;">
+        <h1 style="color:#00796B; margin-bottom:10px;">
+            <span style="font-size:1.3em;vertical-align:middle;">&#128197;</span> Agendar Nueva Cita
+        </h1>
+        
+        <!-- Indicador de pasos -->
+        <div style="display:flex; justify-content:center; align-items:center; margin-bottom:30px; gap:10px;">
+            <div style="background:#80CBC4; color:#FFF; border-radius:50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; font-weight:bold;">✓</div>
+            <div style="width:60px; height:3px; background:#00796B;"></div>
+            <div style="background:#80CBC4; color:#FFF; border-radius:50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; font-weight:bold;">✓</div>
+            <div style="width:60px; height:3px; background:#00796B;"></div>
+            <div style="background:#00796B; color:#FFF; border-radius:50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; font-weight:bold;">3</div>
+        </div>
+
+        <h2 style="color:#37474F; margin-bottom:20px; text-align:center;">Paso 3: Confirma tu Cita</h2>
+
+        <!-- Resumen de la cita -->
+        <div style="background:#E0F2F1; padding:20px; border-radius:8px; margin-bottom:25px;">
+            <h3 style="color:#00796B; margin-top:0;">📋 Resumen de la Cita</h3>
+            <div style="display:flex; flex-direction:column; gap:10px; color:#37474F;">
+                <div>
+                    <strong>&#128105;&#8205;⚕️ Veterinario:</strong> 
+                    <span th:text="${veterinario.nombre + ' ' + veterinario.apellido}"></span>
+                </div>
+                <div>
+                    <strong>&#128197; Fecha y Hora:</strong> 
+                    <span th:text="${fechaHoraFormateada}"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <form th:action="@{/citas/guardar}" method="post" style="background:#FFFFFF; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); padding:30px 25px; display:flex; flex-direction:column; gap:18px;">
+            
+            <!-- Hidden inputs con datos anteriores -->
+            <input type="hidden" name="veterinarioId" th:value="${veterinarioId}">
+            <input type="hidden" name="fechaHora" th:value="${fechaHora}">
+
+            <div style="display:flex; flex-direction:column; gap:5px;">
+                <label for="mascotaId" style="font-weight:bold; color:#37474F;">
+                    <span style="color:#00796B;">&#128054;</span> Selecciona tu Mascota
+                </label>
+                <select id="mascotaId" name="mascotaId" required style="border:1.5px solid #B0BEC5; border-radius:5px; padding:12px; background-color:#FFFFFF; font-size:1em;">
+                    <option value="">-- Selecciona una mascota --</option>
+                    <option th:each="mascota : ${mascotas}" 
+                            th:value="${mascota.id}" 
+                            th:text="${mascota.nombre + ' (' + mascota.especie + ' - ' + mascota.raza + ')'}">
+                    </option>
+                </select>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:5px;">
+                <label for="motivo" style="font-weight:bold; color:#37474F;">
+                    <span style="color:#00796B;">&#128221;</span> Motivo de Consulta
+                </label>
+                <textarea id="motivo" name="motivo" rows="5" required 
+                          placeholder="Describe el motivo de la consulta veterinaria..." 
+                          style="border:1.5px solid #B0BEC5; border-radius:5px; padding:12px; resize:vertical; font-size:1em; font-family:inherit;"></textarea>
+                <small style="color:#757575; font-size:0.85em;">
+                    💡 Sé lo más específico posible para que el veterinario pueda prepararse mejor.
+                </small>
+            </div>
+
+            <button type="submit" style="background-color:#00796B; color:#FFFFFF; padding:14px; border:none; border-radius:5px; font-weight:bold; font-size:1.1em; transition:background 0.3s; margin-top:10px; cursor:pointer;"
+                    onmouseover="this.style.background='#004D40'" 
+                    onmouseout="this.style.background='#00796B'">
+                <span style="font-size:1.2em;vertical-align:middle;">✅</span> Confirmar y Agendar Cita
+            </button>
+        </form>
+
+        <a th:href="@{/citas/agendar/calendario(veterinarioId=${veterinarioId})}" 
+           class="button" 
+           style="margin-top:25px; background:#80CBC4; color:#37474F; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">
+            &#8592; Cambiar Horario
+        </a>
+    </div>
+    <div th:replace="layout/fragments :: footer"></div>
+</body>
+</html>
