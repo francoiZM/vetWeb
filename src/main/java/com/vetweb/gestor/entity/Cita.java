@@ -27,7 +27,7 @@ public class Cita {
     private LocalDateTime fechaHora;
 
     @Column(length = 20, nullable = false)
-    private String estado; // PENDIENTE, CONFIRMADA, CANCELADA, COMPLETADA
+    private String estado; 
 
     @Column(length = 500)
     private String motivo;
@@ -35,11 +35,11 @@ public class Cita {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // Constructor vacío
+   
     public Cita() {
     }
 
-    // Constructor completo
+   
     public Cita(Usuario veterinario, Usuario tutor, Mascota mascota, LocalDateTime fechaHora, String estado, String motivo) {
         this.veterinario = veterinario;
         this.tutor = tutor;
@@ -57,7 +57,7 @@ public class Cita {
         }
     }
 
-    // Getters y Setters
+   
     public Long getId() {
         return id;
     }

@@ -26,7 +26,7 @@ public class MascotaController {
 
 
 
-    // Aquí se inyectará el servicio/DAO de Mascota en el futuro
+    
     @Autowired
     private MascotaServiceImpl mascotaService;
     @Autowired
@@ -37,7 +37,7 @@ public class MascotaController {
     public String listar(Model model, Authentication authentication) {
         List<Mascota> mascotas;
         
-        // Si es TUTOR, solo ve sus propias mascotas
+    
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TUTOR"))) {
             String email = authentication.getName();
             Usuario usuario = usuarioService.findAll().stream()
@@ -51,7 +51,7 @@ public class MascotaController {
                 mascotas = List.of();
             }
         } else {
-            // ADMIN y VETERINARIO ven todas las mascotas
+           
             mascotas = mascotaService.findAll();
         }
         
@@ -75,12 +75,12 @@ public class MascotaController {
     //para eliminar
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id, Authentication authentication) {
-        // Verificar que no sea VETERINARIO
+      
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_VETERINARIO"))) {
             return "redirect:/mascotas/listar";
         }
         
-        // Si es TUTOR, verificar que sea dueño de la mascota
+    
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_TUTOR"))) {
             String email = authentication.getName();
             Usuario usuario = usuarioService.findAll().stream()

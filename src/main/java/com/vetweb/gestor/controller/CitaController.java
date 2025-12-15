@@ -31,7 +31,7 @@ public class CitaController {
     @Autowired
     private MascotaServiceImpl mascotaService;
 
-    // TUTOR: Ver mis citas
+    
     @GetMapping("/mis-citas")
     public String misCitas(Model model, Authentication authentication) {
         String email = authentication.getName();
@@ -48,10 +48,10 @@ public class CitaController {
         return "cita/mis-citas";
     }
 
-    // PASO 1: Seleccionar veterinario
+    // seleccionar veterinario
     @GetMapping("/agendar")
     public String agendarCitaPaso1(Model model) {
-        // Obtener veterinarios disponibles
+        
         List<Usuario> veterinarios = usuarioService.findAll().stream()
                 .filter(u -> u.getRoles().stream()
                         .anyMatch(r -> r.getNombre().equals("ROLE_VETERINARIO")))
@@ -60,47 +60,47 @@ public class CitaController {
         return "cita/agendar";
     }
 
-    // PASO 2: Ver calendario con horarios disponibles
+    // ver calendario con horarios disponibles
     @GetMapping("/agendar/calendario")
     public String agendarCitaPaso2(@RequestParam("veterinarioId") Long veterinarioId, Model model) {
         Usuario veterinario = usuarioService.findById(veterinarioId);
         model.addAttribute("veterinario", veterinario);
         model.addAttribute("veterinarioId", veterinarioId);
         
-        // Generar horarios desde hoy o desde el próximo lunes si ya estamos en fin de semana
+        // generar horarios
         LocalDateTime ahora = LocalDateTime.now();
         LocalDateTime inicioSemana;
         
-        // Si es sábado o domingo, mostrar desde el próximo lunes
+       
         if (ahora.getDayOfWeek() == java.time.DayOfWeek.SATURDAY || 
             ahora.getDayOfWeek() == java.time.DayOfWeek.SUNDAY) {
             inicioSemana = ahora.with(java.time.temporal.TemporalAdjusters.next(java.time.DayOfWeek.MONDAY))
                     .withHour(0).withMinute(0).withSecond(0);
         } else {
-            // Si es entre lunes y viernes, mostrar desde hoy
+           
             inicioSemana = ahora.withHour(0).withMinute(0).withSecond(0);
         }
         
         model.addAttribute("inicioSemana", inicioSemana);
         model.addAttribute("ahora", ahora);
         
-        // Generar lista de 5 días laborables desde inicioSemana
+        // generar lista de 5 días laborables desde inicioSemana
         java.util.List<LocalDateTime> diasLaborables = new java.util.ArrayList<>();
         java.util.Map<String, Boolean> disponibilidad = new java.util.HashMap<>();
         LocalDateTime diaIterador = inicioSemana;
         
         while (diasLaborables.size() < 5) {
-            // Solo procesar días laborables (lunes a viernes)
+           
             if (diaIterador.getDayOfWeek() != java.time.DayOfWeek.SATURDAY && 
                 diaIterador.getDayOfWeek() != java.time.DayOfWeek.SUNDAY) {
                 
                 diasLaborables.add(diaIterador);
                 
                 for (int hora = 8; hora <= 17; hora++) {
-                    if (hora != 13) { // Excluir hora de colación
+                    if (hora != 13) { 
                         LocalDateTime fechaHora = diaIterador.withHour(hora).withMinute(0).withSecond(0);
                         String key = fechaHora.toString();
-                        // Marcar como no disponible si ya pasó
+                        
                         boolean esPasado = fechaHora.isBefore(ahora);
                         boolean disponiblePorVeterinario = citaService.isHorarioDisponible(veterinarioId, fechaHora);
                         disponibilidad.put(key, !esPasado && disponiblePorVeterinario);
@@ -115,7 +115,7 @@ public class CitaController {
         return "cita/calendario-seleccion";
     }
 
-    // PASO 3: Seleccionar mascota y motivo
+    // seleccionar mascota y motivo
     @GetMapping("/agendar/confirmar")
     public String agendarCitaPaso3(@RequestParam("veterinarioId") Long veterinarioId,
                                     @RequestParam("fechaHora") String fechaHora,
@@ -143,7 +143,7 @@ public class CitaController {
         return "cita/confirmar";
     }
 
-    // GUARDAR: Guardar cita agendada
+    // guardar cita agendada
     @PostMapping("/guardar")
     public String guardarCita(@RequestParam("mascotaId") Long mascotaId,
                               @RequestParam("veterinarioId") Long veterinarioId,
@@ -163,7 +163,7 @@ public class CitaController {
 
         LocalDateTime fechaHoraObj = LocalDateTime.parse(fechaHora);
         
-        // Validar que el horario esté disponible
+        
         if (!citaService.isHorarioDisponible(veterinarioId, fechaHoraObj)) {
             return "redirect:/citas/agendar?error=horario-no-disponible";
         }
@@ -183,7 +183,7 @@ public class CitaController {
         return "redirect:/citas/mis-citas";
     }
 
-    // TUTOR: Cancelar cita
+    // cancelar cita
     @GetMapping("/cancelar/{id}")
     public String cancelarCita(@PathVariable Long id, Authentication authentication) {
         Cita cita = citaService.findById(id);
@@ -192,7 +192,7 @@ public class CitaController {
             return "redirect:/citas/mis-citas";
         }
 
-        // Verificar que el tutor sea dueño de la cita
+        
         String email = authentication.getName();
         Usuario tutor = usuarioService.findAll().stream()
                 .filter(u -> u.getEmail().equals(email))
@@ -203,7 +203,7 @@ public class CitaController {
             return "redirect:/citas/mis-citas";
         }
 
-        // Verificar que falte al menos 1 hora para la cita
+       
         LocalDateTime ahora = LocalDateTime.now();
         LocalDateTime horaLimite = cita.getFechaHora().minusHours(1);
 
@@ -217,17 +217,17 @@ public class CitaController {
         return "redirect:/citas/mis-citas";
     }
 
-    // VETERINARIO: Ver calendario de citas
+   
     @GetMapping("/calendario")
     public String calendario(Model model, Authentication authentication) {
         String email = authentication.getName();
         
-        // Si es ADMIN, mostrar todas las citas
+       
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
             List<Cita> citas = citaService.findAll();
             model.addAttribute("citas", citas);
         } else {
-            // Si es VETERINARIO, mostrar solo sus citas
+           
             Usuario veterinario = usuarioService.findAll().stream()
                     .filter(u -> u.getEmail().equals(email))
                     .findFirst()

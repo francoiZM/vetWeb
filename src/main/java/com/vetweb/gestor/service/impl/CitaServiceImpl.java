@@ -69,13 +69,13 @@ public class CitaServiceImpl implements CitaService {
     @Override
     @Transactional(readOnly = true)
     public boolean isHorarioDisponible(Long veterinarioId, LocalDateTime fechaHora) {
-        // Validar que sea día laboral (lunes a viernes)
+        
         DayOfWeek diaSemana = fechaHora.getDayOfWeek();
         if (diaSemana == DayOfWeek.SATURDAY || diaSemana == DayOfWeek.SUNDAY) {
             return false;
         }
 
-        // Validar horario (8am a 5pm, excepto 1pm)
+        
         LocalTime hora = fechaHora.toLocalTime();
         LocalTime horaInicio = LocalTime.of(8, 0);
         LocalTime horaFin = LocalTime.of(17, 0);
@@ -85,7 +85,7 @@ public class CitaServiceImpl implements CitaService {
             return false;
         }
 
-        // Verificar que no haya otra cita en ese horario
+        
         List<Cita> citasExistentes = citaDao.findByVeterinarioIdAndFechaHora(veterinarioId, fechaHora);
         return citasExistentes.isEmpty() || citasExistentes.stream()
                 .allMatch(c -> "CANCELADA".equals(c.getEstado()));

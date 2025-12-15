@@ -24,7 +24,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true, nullable = false, length = 12)
+    @Column(unique = true, length = 12)
     private String rut;
     @Column(nullable = false, length = 50)
     private String nombre;

@@ -18,16 +18,26 @@
                 <input type="text" id="apellido" th:field="*{apellido}" required placeholder="Apellido" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
             </div>
             <div style="display:flex; flex-direction:column; gap:5px;">
+                <label for="rut" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128100;</span> RUT (opcional)</label>
+                <input type="text" id="rut" th:field="*{rut}" placeholder="12345678-9" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+            </div>
+            <div style="display:flex; flex-direction:column; gap:5px;">
                 <label for="email" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#9993;</span> Email</label>
                 <input type="email" id="email" th:field="*{email}" required placeholder="ejemplo@correo.cl" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
             </div>
             <div style="display:flex; flex-direction:column; gap:5px;">
-                <label for="password" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128274;</span> Contraseña</label>
-                <input type="password" id="password" th:field="*{password}" required minlength="8" placeholder="********" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+                <label for="nuevaPassword" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128274;</span> Nueva Contraseña (dejar vacío para mantener actual)</label>
+                <input type="password" id="nuevaPassword" name="nuevaPassword" minlength="8" placeholder="********" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+                <small style="color:#607D8B;">Solo completa este campo si deseas cambiar la contraseña</small>
             </div>
             <div style="display:flex; flex-direction:column; gap:5px;">
-                <label for="rol" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128188;</span> Rol</label>
-                <input type="text" id="rol" th:field="*{rol}" required placeholder="Ej: Veterinario, Admin" style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+                <label for="rolNombre" style="font-weight:bold; color:#37474F;"><span style="color:#00796B;">&#128188;</span> Rol</label>
+                <select id="rolNombre" name="rolNombre" required style="border:1.5px solid #B0BEC5; border-radius:5px; padding:10px;">
+                    <option value="" disabled>Selecciona un rol</option>
+                    <option value="ROLE_ADMIN" th:selected="${usuario.roles.![nombre].contains('ROLE_ADMIN')}">Administrador</option>
+                    <option value="ROLE_VETERINARIO" th:selected="${usuario.roles.![nombre].contains('ROLE_VETERINARIO')}">Veterinario</option>
+                    <option value="ROLE_TUTOR" th:selected="${usuario.roles.![nombre].contains('ROLE_TUTOR')}">Tutor</option>
+                </select>
             </div>
             <button type="submit" style="background-color:#00796B; color:#FFFFFF; padding:12px; border:none; border-radius:5px; font-weight:bold; font-size:1em; transition:background 0.3s; margin-top:10px;">
                 <span style="font-size:1.2em;vertical-align:middle;">&#128190;</span> Actualizar Usuario

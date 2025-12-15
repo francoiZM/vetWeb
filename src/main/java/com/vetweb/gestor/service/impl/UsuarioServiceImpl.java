@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vetweb.gestor.dao.iUsuarioDao;
-import com.vetweb.gestor.entity.Rol;
 import com.vetweb.gestor.entity.Usuario;
 import com.vetweb.gestor.service.UsuarioService;
 

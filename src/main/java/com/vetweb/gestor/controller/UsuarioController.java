@@ -50,10 +50,10 @@ public class UsuarioController {
     public String guardar(@ModelAttribute Usuario usuario, 
                           @RequestParam("rolNombre") String rolNombre,
                           Model model) {
-        // Encriptar contraseña
+       
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         
-        // Asignar rol seleccionado
+       
         Rol rol = rolDao.findByNombre(rolNombre)
             .orElseThrow(() -> new RuntimeException("Rol no encontrado: " + rolNombre));
         
@@ -75,11 +75,39 @@ public class UsuarioController {
         model.addAttribute("usuario", usuario);
         return "usuario/editar";
     }
-
+    //editar usuario desde admin
     @PostMapping("/editar/{id}")
-    public String actualizar(@PathVariable Long id, @ModelAttribute Usuario usuario) {
-        usuario.setId(id);
-        usuarioService.update(usuario);
+    public String actualizar(@PathVariable Long id, 
+                            @ModelAttribute Usuario usuarioActualizado,
+                            @RequestParam(value = "rolNombre", required = false) String rolNombre,
+                            @RequestParam(value = "nuevaPassword", required = false) String nuevaPassword,
+                            Model model) {
+       
+        Usuario usuarioExistente = usuarioService.findById(id);
+        if (usuarioExistente == null) {
+            return "redirect:/usuarios/listar";
+        }
+        
+        usuarioExistente.setNombre(usuarioActualizado.getNombre());
+        usuarioExistente.setApellido(usuarioActualizado.getApellido());
+        usuarioExistente.setEmail(usuarioActualizado.getEmail());
+        usuarioExistente.setRut(usuarioActualizado.getRut());
+        
+       
+        if (nuevaPassword != null && !nuevaPassword.trim().isEmpty()) {
+            usuarioExistente.setPassword(passwordEncoder.encode(nuevaPassword));
+        }
+        
+     
+        if (rolNombre != null && !rolNombre.trim().isEmpty()) {
+            Rol rol = rolDao.findByNombre(rolNombre)
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado: " + rolNombre));
+            Set<Rol> roles = new HashSet<>();
+            roles.add(rol);
+            usuarioExistente.setRoles(roles);
+        }
+        
+        usuarioService.update(usuarioExistente);
         return "redirect:/usuarios/listar";
     }
 
@@ -115,6 +143,8 @@ public class UsuarioController {
             error = "El email es obligatorio.";
         } else if (!usuario.getEmail().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
             error = "El formato del email no es válido.";
+        } else if (usuarioService.existeUsuario(usuario.getEmail())) {
+            error = "El email ya está registrado.";
         } else if (usuario.getPassword() == null || usuario.getPassword().length() < 8) {
             error = "La contraseña debe tener al menos 8 caracteres.";
         } else if (!usuario.getPassword().equals(confirmPassword)) {
@@ -126,7 +156,18 @@ public class UsuarioController {
             model.addAttribute("error", error);
             return "registro";
         }
+        
+        
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        
+        // Asignar rol ROLE_TUTOR por defecto
+        Rol rolTutor = rolDao.findByNombre("ROLE_TUTOR")
+            .orElseThrow(() -> new RuntimeException("Rol ROLE_TUTOR no encontrado en la base de datos"));
+        
+        Set<Rol> roles = new HashSet<>();
+        roles.add(rolTutor);
+        usuario.setRoles(roles);
+        
         usuarioService.save(usuario);
         return "redirect:/login";
     }

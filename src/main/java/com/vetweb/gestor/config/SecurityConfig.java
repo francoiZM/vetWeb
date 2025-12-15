@@ -49,12 +49,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http
-            // Permitir frames para H2 Console
+            
             .headers(headers -> headers
                 .frameOptions(frame -> frame.sameOrigin())
             )
 
-            // Deshabilitar CSRF solo para H2 Console
+            
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/h2-console/**")
             )
@@ -81,16 +81,16 @@ public class SecurityConfig {
                     "/usuarios/registro"
                 ).permitAll()
 
-                // Rutas administrativas
+                // utas administrativas
                 .requestMatchers("/usuarios/**").hasRole("ADMIN")
 
                 // rutas tutor y admin pueden ver mascotas
                 .requestMatchers("/mascotas/**").hasAnyRole("TUTOR", "ADMIN", "VETERINARIO")
 
-                // Rutas de citas: TUTOR y VETERINARIO
+                // rutas de citas: TUTOR y VETERINARIO
                 .requestMatchers("/citas/**").hasAnyRole("TUTOR", "VETERINARIO", "ADMIN")
 
-                // Cualquier otra solicitud requiere autenticación
+                // otras
                 .anyRequest().authenticated()
                     
             )
