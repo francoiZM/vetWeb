@@ -15,8 +15,8 @@
     --contraseña 1  --> password -->  $2a$10$JTtCtBaFrKZPzzdhIadJOeQdxH6CSAtrszbqgn6v831Kc4VmXOV4C
     
         INSERT INTO usuarios (rut, nombre, apellido, email, password, activo) VALUES ('12345678-9', 'franco', 'zuniga', 'prueba@prueba.com', '$2a$10$JTtCtBaFrKZPzzdhIadJOeQdxH6CSAtrszbqgn6v831Kc4VmXOV4C', true);
-        INSERT INTO usuarios (rut, nombre, apellido, email, password, activo) VALUES ('98765432-1', 'María', 'Gómez', 'maria.gomez@example.com', '$2a$10$JTtCtBaFrKZPzzdhIadJOeQdxH6CSAtrszbqgn6v831Kc4VmXOV4C', true);
-        INSERT INTO usuarios (rut, nombre, apellido, email, password, activo) VALUES ('11223344-5', 'Carlos', 'López', 'carlos.lopez@example.com', '$2a$10$JTtCtBaFrKZPzzdhIadJOeQdxH6CSAtrszbqgn6v831Kc4VmXOV4C', true);
+        INSERT INTO usuarios (rut, nombre, apellido, email, password, activo) VALUES ('98765432-1', 'Monkey', 'D. luffy', 'onepiece@pirate.com', '$2a$10$JTtCtBaFrKZPzzdhIadJOeQdxH6CSAtrszbqgn6v831Kc4VmXOV4C', true);
+        INSERT INTO usuarios (rut, nombre, apellido, email, password, activo) VALUES ('11223344-5', 'Paula', 'Torres', 'paulavet@vet.com', '$2a$10$JTtCtBaFrKZPzzdhIadJOeQdxH6CSAtrszbqgn6v831Kc4VmXOV4C', true);
 
 
     -- asignaro roles a usuarios
@@ -28,7 +28,7 @@
         /*ahora incluye el campo peso y fecha_nacimiento*/
 
         INSERT INTO mascotas (nombre, especie, raza, peso, fecha_nacimiento, usuario_id) VALUES ('Max', 'Perro', 'Labrador', 30.5, '2019-01-15', 1);
-        INSERT INTO mascotas (nombre, especie, raza, peso, fecha_nacimiento, usuario_id) VALUES ('Luna', 'Gato', 'Siamés', 3.8, '2021-03-20', 2);
+        INSERT INTO mascotas (nombre, especie, raza, peso, fecha_nacimiento, usuario_id) VALUES ('Luna', 'Gato', 'Siames', 3.8, '2021-03-20', 2);
         INSERT INTO mascotas (nombre, especie, raza, peso, fecha_nacimiento, usuario_id) VALUES ('Rocky', 'Perro', 'Bulldog', 22.0, '2020-05-10', 3);
         INSERT INTO mascotas (nombre, especie, raza, peso, fecha_nacimiento, usuario_id) VALUES ('Molly', 'Perro', 'Beagle', 10.2, '2022-08-25', 1);
         INSERT INTO mascotas (nombre, especie, raza, peso, fecha_nacimiento, usuario_id) VALUES ('Bella', 'Gato', 'Persa', 4.5, '2018-11-05', 2);

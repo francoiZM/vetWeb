@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <title>VetWeb Gestor - Cuidado Profesional para tu Mascota</title>
+</head>
+
+<th:block layout:fragment="css">
+    <style>
+       
+        .hero-section {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #00796B 0%, #80CBC4 100%);
+            margin: 0;
+        }
+
+        .hero-carousel {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        .hero-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 121, 107, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: #FFFFFF;
+            padding: 40px;
+            max-width: 800px;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #FFFFFF;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .carousel-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid #FFFFFF;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            background: #FFFFFF;
+            transform: scale(1.2);
+        }
+
+        /* Sección de Bienvenida */
+        .welcome-section {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: #FFFFFF;
+        }
+
+        .welcome-section h2 {
+            color: #00796B;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section p {
+            color: #37474F;
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+
+        /* Sección de Servicios */
+        .services-section {
+            padding: 80px 20px;
+            background-color: #ECEFF1;
+        }
+
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .services-section h2 {
+            color: #00796B;
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            background: #FFFFFF;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 121, 107, 0.2);
+        }
+
+        .service-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #00796B;
+        }
+
+        .service-card h3 {
+            color: #00796B;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            color: #37474F;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Call to Action */
+        .cta-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #00796B 0%, #004D40 100%);
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #FFFFFF;
+        }
+
+        .cta-section p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #FFFFFF;
+            color: #00796B;
+        }
+
+        .btn-primary:hover {
+            background-color: #80CBC4;
+            color: #FFFFFF;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+        }
+
+        .btn-secondary:hover {
+            background-color: #FFFFFF;
+            color: #00796B;
+            transform: scale(1.05);
+        }
+
+   
+        .trust-section {
+            padding: 80px 20px;
+            background-color: #FFFFFF;
+        }
+
+        .trust-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .trust-section h2 {
+            color: #00796B;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .trust-item {
+            text-align: center;
+        }
+
+        .trust-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #00796B;
+            margin-bottom: 10px;
+        }
+
+        .trust-label {
+            color: #37474F;
+            font-size: 1.1em;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2em;
+            }
+
+            .hero-content p {
+                font-size: 1em;
+            }
+
+            .welcome-section h2,
+            .services-section h2,
+            .cta-section h2,
+            .trust-section h2 {
+                font-size: 2em;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+       
+        #content.container-wrapper {
+            padding: 0;
+            min-height: auto;
+        }
+
+        #content > div {
+            width: 100%;
+            max-width: 100%;
+        }
+    </style>
+</th:block>
+
+<body>
+<section layout:fragment="content">
+ 
+    <div class="hero-section">
+        <div class="hero-carousel">
+          
+            <div class="hero-slide active" style="background: linear-gradient(135deg, #00796B 0%, #80CBC4 100%);">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <h1>Cuidado Profesional para tu Mascota</h1>
+                        <p>Brindando servicios veterinarios de excelencia con amor y dedicación</p>
+                        <div sec:authorize="!isAuthenticated()">
+                            <a th:href="@{/registro}" class="btn-primary">Regístrate Ahora</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+            <div class="hero-slide" style="background: linear-gradient(135deg, #004D40 0%, #00796B 100%);">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <h1>Equipo Veterinario Especializado</h1>
+                        <p>Profesionales certificados comprometidos con la salud y bienestar de tu compañero</p>
+                    </div>
+                </div>
+            </div>
+
+          
+            <div class="hero-slide" style="background: linear-gradient(135deg, #00796B 0%, #004D40 100%);">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <h1>Tecnología de Vanguardia</h1>
+                        <p>Instalaciones modernas y equipamiento de última generación para diagnósticos precisos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="carousel-indicators">
+            <span class="carousel-indicator active" data-slide="0"></span>
+            <span class="carousel-indicator" data-slide="1"></span>
+            <span class="carousel-indicator" data-slide="2"></span>
+        </div>
+    </div>
+
+    
+    <div class="welcome-section">
+        <h2>Bienvenido a VetWeb</h2>
+        <p>
+            En VetWeb nos especializamos en brindar atención veterinaria integral de la más alta calidad. 
+            Nuestro equipo de profesionales certificados está comprometido con el bienestar de tu mascota, 
+            ofreciendo servicios que van desde consultas preventivas hasta tratamientos especializados.
+        </p>
+        <p>
+            Tu mascota es parte de tu familia, y merece el mejor cuidado. Por eso trabajamos con dedicación, 
+            tecnología moderna y un enfoque personalizado para cada paciente.
+        </p>
+    </div>
+
+  
+    <div class="services-section">
+        <div class="services-container">
+            <h2>Nuestros Servicios</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🏥</div>
+                    <h3>Consultas Veterinarias</h3>
+                    <p>Atención médica integral para el diagnóstico y tratamiento de enfermedades en tu mascota.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">💉</div>
+                    <h3>Vacunación y Prevención</h3>
+                    <p>Programas completos de vacunación y medicina preventiva para mantener a tu mascota saludable.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🔬</div>
+                    <h3>Laboratorio Clínico</h3>
+                    <p>Análisis y pruebas diagnósticas con tecnología de vanguardia para resultados precisos.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">⚕️</div>
+                    <h3>Cirugías</h3>
+                    <p>Procedimientos quirúrgicos realizados por especialistas con el más alto estándar de cuidado.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🩺</div>
+                    <h3>Urgencias 24/7</h3>
+                    <p>Servicio de emergencias disponible las 24 horas del día para cuando más lo necesites.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">💊</div>
+                    <h3>Farmacia Veterinaria</h3>
+                    <p>Medicamentos y productos especializados para el tratamiento y cuidado de tu mascota.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="cta-section">
+        <h2>¿Necesitas Atención Veterinaria para tu Mascota?</h2>
+        <p>Agenda tu cita ahora y bríndale a tu compañero el cuidado que merece</p>
+        <div class="cta-buttons">
+            <a sec:authorize="isAuthenticated()" th:href="@{/citas/agendar}" class="btn-primary">Agendar Cita</a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/usuarios/registro}" class="btn-primary">Crear Cuenta</a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="btn-secondary">Iniciar Sesión</a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/mascotas/listar}" class="btn-secondary">Ver Mis Mascotas</a>
+        </div>
+    </div>
+
+    <!-- Sección de Confianza -->
+    <div class="trust-section">
+        <div class="trust-container">
+            <h2>La Confianza de Cientos de Familias</h2>
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <div class="trust-number">15+</div>
+                    <div class="trust-label">Años de Experiencia</div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-number">5,000+</div>
+                    <div class="trust-label">Pacientes Atendidos</div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-number">10+</div>
+                    <div class="trust-label">Veterinarios Especialistas</div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-number">98%</div>
+                    <div class="trust-label">Satisfacción del Cliente</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<th:block layout:fragment="js">
+    <script>
+        // Carrusel automático
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+            
+            currentSlide = (n + totalSlides) % totalSlides;
+            
+            slides[currentSlide].classList.add('active');
+            indicators[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        // Auto-advance slides every 5 seconds
+        let slideInterval = setInterval(nextSlide, 5000);
+
+        // Manual control with indicators
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                clearInterval(slideInterval);
+                showSlide(index);
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+        });
+
+        // Smooth scroll para navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>

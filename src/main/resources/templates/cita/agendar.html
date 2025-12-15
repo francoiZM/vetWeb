@@ -6,7 +6,8 @@
 </head>
 <body>
     <div th:replace="layout/fragments :: navbar"></div>
-    <div class="container" style="max-width:800px; margin:auto;">
+    <main class="content-wrapper">
+        <div class="container" style="max-width:900px;">
         <h1 style="color:#00796B; margin-bottom:10px;">
             <span style="font-size:1.3em;vertical-align:middle;">&#128197;</span> Agendar Nueva Cita
         </h1>
@@ -43,7 +44,8 @@
         <a th:href="@{/citas/mis-citas}" class="button" style="margin-top:30px; background:#80CBC4; color:#37474F; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">
             &#8592; Volver a Mis Citas
         </a>
-    </div>
+        </div>
+    </main>
     <div th:replace="layout/fragments :: footer"></div>
 </body>
 </html>

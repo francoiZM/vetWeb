@@ -73,12 +73,17 @@ public class SecurityConfig {
 
                 // Rutas públicas
                 .requestMatchers(
+                    "/",
+                    "/index",
+                    "/home",
+                    "/inicio",
                     "/login",
                     "/usuarios/crear",
                     "/usuarios/guardar",
                     "/h2-console",
                     "/h2-console/**",
                     "/usuarios/registro"
+                    
                 ).permitAll()
 
                 // utas administrativas

@@ -6,9 +6,8 @@
 </head>
 <body>
         <div th:replace="layout/fragments :: navbar"></div>
-        <main class="container py-5">
-            <section class="container-wrapper">
-                <div class="container">
+        <main class="content-wrapper">
+            <div class="container">
                     <div class="d-flex align-items-center mb-4">
                         <svg class="me-3" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <circle cx="12" cy="12" r="10" fill="#00796B"/>
@@ -54,7 +53,6 @@
                         <a th:href="@{/mascotas/listar}" class="button" style="margin-top:18px; background:#80CBC4; color:#37474F; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">&#8592; Volver al listado</a>
                     </form>
                 </div>
-            </section>
         </main>
         <div th:replace="layout/fragments :: footer"></div>
         <script>

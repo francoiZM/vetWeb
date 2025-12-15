@@ -6,7 +6,8 @@
 </head>
 <body>
     <div th:replace="layout/fragments :: navbar"></div>
-    <div class="container" style="max-width:900px; margin:auto;">
+    <main class="content-wrapper">
+        <div class="container" style="max-width:1000px;">
         <h1 style="color:#00796B; margin-bottom:25px;"><span style="font-size:1.3em;vertical-align:middle;">&#128100;</span> Usuarios</h1>
         <div th:if="${error}" class="error-message" style="margin-bottom:10px;">[[${error}]]</div>
         <a th:href="@{/usuarios/crear}" class="button" style="margin-bottom:20px; background:#00796B; color:#FFFFFF; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">
@@ -28,20 +29,29 @@
                     <td th:text="${usuario.nombre}" style="padding:10px 8px;"></td>
                     <td th:text="${usuario.apellido}" style="padding:10px 8px;"></td>
                     <td th:text="${usuario.email}" style="padding:10px 8px;"></td>
-                    <td th:text="${usuario.roles}" style="padding:10px 8px;"></td>
                     <td style="padding:10px 8px;">
-                        <a th:href="@{'/usuarios/editar/' + ${usuario.id}}" class="button" style="background-color:#80CBC4; color:#37474F; margin-right:5px; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none;">
-                            <span style="font-size:1.1em;vertical-align:middle;">&#9998;</span> Editar
-                        </a>
-                        <a th:href="@{'/usuarios/eliminar/' + ${usuario.id}}" class="button" style="background-color:#D32F2F; color:#FFFFFF; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none;" onclick="return confirm('¿Estás seguro que deseas eliminar este usuario? Esta acción no se puede deshacer.');">
-                            <span style="font-size:1.1em;vertical-align:middle;">&#128465;</span> Eliminar
-                        </a>
+                        <span th:each="rol, iterStat : ${usuario.roles}">
+                            <span th:text="${#strings.replace(rol.nombre, 'ROLE_', '')}" 
+                                  style="background:#00796B; color:#FFFFFF; padding:4px 10px; border-radius:12px; font-size:0.85em; font-weight:bold; display:inline-block; margin:2px;"></span>
+                            <span th:if="${!iterStat.last}">, </span>
+                        </span>
+                    </td>
+                    <td style="padding:10px 8px;">
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                            <a th:href="@{'/usuarios/editar/' + ${usuario.id}}" class="button" style="background-color:#80CBC4; color:#37474F; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none; white-space:nowrap;">
+                                <span style="font-size:1.1em;vertical-align:middle;">&#9998;</span> Editar
+                            </a>
+                            <a th:href="@{'/usuarios/eliminar/' + ${usuario.id}}" class="button" style="background-color:#D32F2F; color:#FFFFFF; border-radius:5px; padding:7px 14px; font-weight:bold; text-decoration:none; white-space:nowrap;" onclick="return confirm('¿Estás seguro que deseas eliminar este usuario? Esta acción no se puede deshacer.');">
+                                <span style="font-size:1.1em;vertical-align:middle;">&#128465;</span> Eliminar
+                            </a>
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
         </div>
-    </div>
+        </div>
+    </main>
     <div th:replace="layout/fragments :: footer"></div>
 </body>
 </html>

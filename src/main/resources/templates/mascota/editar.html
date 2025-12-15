@@ -7,7 +7,8 @@
 </head>
 <body>
     <div th:replace="layout/fragments :: navbar"></div>
-    <div class="container" style="max-width:500px; margin:auto;">
+    <main class="content-wrapper">
+        <div class="container" style="max-width:600px;">
         <h1 style="color:#00796B; margin-bottom:25px;"><span style="font-size:1.3em;vertical-align:middle;">&#128062;</span> Editar Mascota</h1>
         <form th:action="@{'/mascotas/actualizar/' + ${mascota.id}}" th:object="${mascota}" method="post" style="background:#FFFFFF; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); padding:30px 25px; display:flex; flex-direction:column; gap:18px;">
             <div style="display:flex; flex-direction:column; gap:12px;">
@@ -35,7 +36,8 @@
             </button>
             <a th:href="@{/mascotas/listar}" class="button" style="margin-top:18px; background:#80CBC4; color:#37474F; padding:10px 18px; border-radius:5px; font-weight:bold; text-decoration:none; display:inline-block;">&#8592; Volver al listado</a>
         </form>
-    </div>
+        </div>
+    </main>
     <div th:replace="layout/fragments :: footer"></div>
 </body>
 </html>

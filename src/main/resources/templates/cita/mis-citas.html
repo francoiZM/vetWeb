@@ -6,7 +6,8 @@
 </head>
 <body>
     <div th:replace="layout/fragments :: navbar"></div>
-    <div class="container" style="max-width:1000px; margin:auto;">
+    <main class="content-wrapper">
+        <div class="container" style="max-width:1100px;">
         <h1 style="color:#00796B; margin-bottom:25px;">
             <span style="font-size:1.3em;vertical-align:middle;">&#128197;</span> Mis Citas Agendadas
         </h1>
@@ -62,7 +63,8 @@
             <p style="color:#757575; font-size:1.1em;">📅 No tienes citas agendadas.</p>
             <a th:href="@{/citas/agendar}" style="color:#00796B; font-weight:bold; text-decoration:underline;">Agenda tu primera cita aquí</a>
         </div>
-    </div>
+        </div>
+    </main>
     <div th:replace="layout/fragments :: footer"></div>
 </body>
 </html>
