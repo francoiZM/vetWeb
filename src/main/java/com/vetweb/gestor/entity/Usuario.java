@@ -9,6 +9,8 @@ import jakarta.persistence.*;
 import jakarta.annotation.PreDestroy;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 
@@ -61,8 +63,9 @@ public class Usuario {
     private Date updatedAt;
 
     @OneToMany(mappedBy = "usuario", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     List<Mascota> mascotas = new ArrayList<>();
-
+    @JsonIgnore
     public List<Mascota> getMascotas() { return mascotas; }
     
     @PrePersist

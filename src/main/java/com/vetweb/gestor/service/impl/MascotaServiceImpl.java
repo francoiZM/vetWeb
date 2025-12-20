@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import com.vetweb.gestor.service.MascotaService;
 import com.vetweb.gestor.dao.iMascotaDao;
 import com.vetweb.gestor.entity.Mascota;
-import jakarta.transaction.Transactional;
+
 import java.util.List;
 
 
@@ -13,29 +13,29 @@ public class MascotaServiceImpl implements MascotaService {
     @Autowired 
     private iMascotaDao mascotaDao;
 
-    @Transactional
+    @Override
     public Mascota save(Mascota mascota) {
         return mascotaDao.save(mascota);
     }
 
-    @Transactional
+    @Override
     public Mascota update(Mascota mascota) {
         return mascotaDao.save(mascota);
     }
 
-    @Transactional
+    @Override
     public void delete(Long id) {
         mascotaDao.deleteById(id);
     }
-    @Transactional
+    @Override
     public List<Mascota> findAll() {
         return (List<Mascota>) mascotaDao.findAll();
     }
-    @Transactional
+    @Override
     public Mascota findById(Long id) {
         return mascotaDao.findById(id).orElse(null);
     }
-    @Transactional
+    @Override
     public List<Mascota> findByUsuarioId(Long usuarioId) {
         return mascotaDao.findByUsuarioId(usuarioId);
     }

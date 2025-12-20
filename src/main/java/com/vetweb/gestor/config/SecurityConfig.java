@@ -49,14 +49,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http
+
+            .cors(cors -> cors.configure(http))
             
             .headers(headers -> headers
                 .frameOptions(frame -> frame.sameOrigin())
             )
 
-            
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/h2-console/**")
+                .ignoringRequestMatchers("/h2-console/**", "/api/**")
             )
 
             .authorizeHttpRequests(auth -> auth
@@ -82,8 +83,8 @@ public class SecurityConfig {
                     "/usuarios/guardar",
                     "/h2-console",
                     "/h2-console/**",
-                    "/usuarios/registro"
-                    
+                    "/usuarios/registro",
+                    "/api/**"
                 ).permitAll()
 
                 // utas administrativas

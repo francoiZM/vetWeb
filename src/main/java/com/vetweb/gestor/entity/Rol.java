@@ -2,6 +2,9 @@ package com.vetweb.gestor.entity;
 
 import jakarta.persistence.*;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 
 /**
@@ -29,6 +32,7 @@ public class Rol {
     private String descripcion;
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private Set<Usuario> usuarios = new HashSet<>();
 
     // constructor

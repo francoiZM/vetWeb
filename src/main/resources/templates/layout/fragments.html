@@ -18,8 +18,8 @@
         <a sec:authorize="hasRole('TUTOR')" th:href="@{/citas/agendar}" class="nav-item">Agendar Cita</a>
         <a sec:authorize="hasAnyRole('VETERINARIO', 'ADMIN')" th:href="@{/citas/calendario}" class="nav-item">Calendario</a>
         <a sec:authorize="hasRole('ADMIN')" th:href="@{/usuarios/listar}" class="nav-item">Usuarios</a>
-        <form th:action="@{/logout}" method="post" class="navbar-logout-form">
-            <button sec:authorize="isAuthenticated()" type="submit" class="nav-item nav-logout">Cerrar Sesión</button>
+        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="navbar-logout-form">
+            <button type="submit" class="nav-item nav-logout">Cerrar Sesión</button>
         </form>
     </div>
 </nav>
